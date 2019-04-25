@@ -1,3 +1,4 @@
+/* Global */
 body {
   margin: 0;
   padding: 0;
@@ -8,7 +9,78 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+:root,
+.App {
+  background-color: rgba(255, 225, 187, 0.603);
+}
+
+/* Individual */
+#summary-div {
+  width: 20vw;
+  left: 40vw;
+  position: absolute;
+  text-align: center;
+}
+
+#income-form-holder {
+  width: 100%;
+  position: absolute;
+  top: 10vh;
+  text-align: center;
+}
+
+#summary-div {
+  top: 40vh;
+}
+
+#summary-ul {
+  width: 20vw;
+  position: relative;
+  top: 5vh;
+  left: 40vw;
+}
+
+#income-form {
+  position: relative;
+  top: 10vh;
+  width: 30vw;
+  display: inline-block;
+}
+
+#submitButton {
+  position: relative;
+  top: 2vh;
+}
+
+#expenses-form {
+  position: fixed;
+  left: 1vw;
+  width: 25vw;
+  top: 20vh;
+}
+
+.expenses-input,
+.target-input {
+  padding-bottom: 2vh;
+}
+
+.expenses-help,
+.target-help {
+  text-align: center;
+}
+
+.expense-icon,
+.target-icon {
+  height: 5vh;
+}
+
+#target-form {
+  position: fixed;
+  right: 1vw;
+  width: 25vw;
+  top: 30vh;
+}
+
+.resultImage {
+  padding-bottom: 3vh;
 }
