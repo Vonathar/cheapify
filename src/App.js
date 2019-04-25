@@ -24,18 +24,18 @@ class App extends Component {
     currentNet: 5000,
     targetNet: 1000000,
     // Post-calculation values
-    isTargetMet: undefined
+    isTargetMet: "wait" // 3 options: "yes" , "no" and "wait" (when there has not been a submission yet)
   };
   // Fetch the user input for the yearly income and set the state
   handleIncomeInput = event => {
-    console.log("fetchIncomeInput()");
+    console.log("starting fetchIncomeInput()");
     console.log(event.target.value);
     this.setState({ income: event.target.value });
   };
   /* Fetch & handle the values of the EXPENSES */
   // Fetch the value of expenses dynamically upon change
   handleExpensesInput = event => {
-    console.log("handleExpenseInput()");
+    console.log("starting handleExpenseInput()");
     console.log(event.target.value);
     if (event.target.id === "foodExpenses") {
       this.setState({ foodExpenses: Number(event.target.value) });
@@ -52,6 +52,7 @@ class App extends Component {
     if (event.target.id === "beautyExpenses") {
       this.setState({ beautyExpenses: Number(event.target.value) });
     }
+    this.setState({ isTargetMet: "wait" });
   };
 
   // Handler functions to update the UI with the new values of the various expenses
@@ -74,7 +75,7 @@ class App extends Component {
   /* Fetch & handle the values of the TARGETS */
   // Fetch the value of targets dynamically upon change
   handleTargetInput = event => {
-    console.log("handleTargetInput()");
+    console.log("starting handleTargetInput()");
     console.log(event.target.value);
     if (event.target.id === "currentAgeInput") {
       this.setState({ currentAge: event.target.value });
@@ -88,6 +89,7 @@ class App extends Component {
     if (event.target.id === "targetNetInput") {
       this.setState({ targetNet: event.target.value });
     }
+    this.setState({ isTargetMet: "wait" });
   };
 
   // Handler functions to update the UI with the new values of the various targets
@@ -101,13 +103,6 @@ class App extends Component {
   // All the expenses summed (YEARLY)
   calculateYearlyExpenses = () => {
     console.log("starting calculateYearlyExpenses()");
-    console.log("foodExpenses = " + this.state.foodExpenses);
-    console.log(
-      "transportationExpenses = " + this.state.transportationExpenses
-    );
-    console.log("houseExpenses = " + this.state.houseExpenses);
-    console.log("leisureExpenses = " + this.state.leisureExpenses);
-    console.log("beautyExpenses = " + this.state.beautyExpenses);
     let totalExpenses =
       (this.state.foodExpenses +
         this.state.transportationExpenses +
@@ -115,15 +110,13 @@ class App extends Component {
         this.state.leisureExpenses +
         this.state.beautyExpenses) *
       12;
-    console.log(
-      "calculateYearlyExpenses() finished. totalExpenses = " + totalExpenses
-    );
+
     return totalExpenses;
   };
 
   // Calculate the real yearly income, Salary (IN) - Expenses (OUT)
   calculateYearlyOverallIncome = () => {
-    console.log("calculateYearlyOverallIncome()");
+    console.log("starting calculateYearlyOverallIncome()");
 
     let overallIncome = this.state.income - this.calculateYearlyExpenses();
     return overallIncome;
@@ -138,7 +131,7 @@ class App extends Component {
 
   // The money required to reach the target net worth, divided by the years left until target age
   calculateMinimumRequiredIncome = () => {
-    console.log("calculateMinimumRequiredIncome()");
+    console.log("starting calculateMinimumRequiredIncome()");
     let moneyToTarget = this.state.targetNet - this.state.currentNet;
     let yearsToTarget = this.state.targetAge - this.state.currentAge;
     // Return the yearly money necessary to reach the target
@@ -147,21 +140,21 @@ class App extends Component {
 
   // Check the money made in a year is more than the minimum required to meet target
   checkTargetMet = () => {
-    console.log("checkTargetMet()");
+    console.log("starting checkTargetMet()");
     // Yearly target > yearly money IN
     if (
       this.calculateYearlyOverallIncome() <
       this.calculateMinimumRequiredIncome()
     ) {
       console.log("Target missed");
-      this.setState({ isTargetMet: false });
+      this.setState({ isTargetMet: "no" });
       // Yearly money IN > yearly target
     } else if (
       this.calculateYearlyOverallIncome() >=
       this.calculateMinimumRequiredIncome()
     ) {
       console.log("Target met");
-      this.setState({ isTargetMet: true });
+      this.setState({ isTargetMet: "yes" });
     }
   };
 
@@ -172,7 +165,10 @@ class App extends Component {
 
   renderSummary = () => {
     // Render the summary div based on the TARGET NOT being MET
-    if (!this.state.isTargetMet && this.state.isTargetMet !== undefined) {
+    if (this.state.isTargetMet === "wait") {
+      return;
+    }
+    if (this.state.isTargetMet === "no") {
       return (
         <React.Fragment>
           <img src={failureLogo} alt="failure logo" className="resultImage" />
@@ -210,7 +206,7 @@ class App extends Component {
       );
     }
     // Render the summary div based on the TARGET being MET
-    if (this.state.isTargetMet) {
+    if (this.state.isTargetMet === "yes") {
       return (
         <React.Fragment>
           <img src={successLogo} alt="success logo" className="resultImage" />

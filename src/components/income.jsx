@@ -15,6 +15,12 @@ class Income extends Component {
               id="incomeInputText"
               aria-describedby="incomeHelp"
               placeholder="12000..."
+              onKeyDown={event => {
+                if (event.keyCode == 13) {
+                  event.preventDefault();
+                  this.props.checkTargetMet();
+                }
+              }}
               onChange={this.props.handleIncomeInput}
             />
             <small id="incomeInputHelp" className="form-text text-muted">
@@ -25,7 +31,10 @@ class Income extends Component {
               type="button"
               class="btn btn-dark btn-sm"
               id="submitButton"
-              onClick={this.props.checkTargetMet}
+              onClick={event => {
+                event.preventDefault();
+                this.props.checkTargetMet();
+              }}
             >
               Calculate
             </button>
