@@ -25,6 +25,7 @@ body {
 #income-form-holder {
   width: 100%;
   position: absolute;
+  height: 1vh;
   top: 10vh;
   text-align: center;
 }
@@ -77,7 +78,7 @@ body {
 
 .expenses-input,
 .target-input {
-  padding-bottom: 2vh;
+  padding-bottom: 1vh;
 }
 
 .expenses-help,
