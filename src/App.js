@@ -101,10 +101,10 @@ class App extends Component {
     console.log("starting handleTargetInput()");
     console.log(event.target.value);
     if (event.target.id === "currentAgeInput") {
-      this.setState({ currentAge: event.target.value });
+      this.setState({ currentAge: Number(event.target.value) });
     }
     if (event.target.id === "targetAgeInput") {
-      this.setState({ targetAge: event.target.value });
+      this.setState({ targetAge: Number(event.target.value) });
     }
     if (event.target.id === "currentNetInput") {
       this.setState({ currentNet: event.target.value });
@@ -150,8 +150,16 @@ class App extends Component {
     return overallIncome;
   };
 
+  // Calculate the yearly savings (Income - Expenses)
+  calculateYearlySavings = () => {
+    return this.calculateYearlyOverallIncome();
+  };
+
   // Calculate years to reach target
   calculateYearsToTarget = () => {
+    if (this.calculateYearlyOverallIncome() < 1) {
+      return 0;
+    }
     return Math.floor(
       this.state.targetNet / this.calculateYearlyOverallIncome()
     );
@@ -189,6 +197,175 @@ class App extends Component {
     return this.calculateYearlyOverallIncome() * yearsToTarget;
   };
 
+  /* 
+    To make it easier to change the content of the individual paragraphs, each is rendered by its own unique method.
+    Each method is only responsible for rendering a specific paragraph; the actuall calls to the methods are done by this.renderSummary()
+  */
+
+  // Return the first paragraph of the failure summary
+  handleFailureParagraphOne = () => {
+    return (
+      <p>
+        In your current situation, it will not be possible to reach your target
+        net worth by your target age.
+      </p>
+    );
+  };
+
+  // Return the second paragraph of the failure summary
+  handleFailureParagraphTwo = () => {
+    // Render the net worth by target age
+    if (this.calculateYearsToTarget() > 1) {
+      return (
+        <p>
+          However, by your target age you will be worth
+          <span className="text-success">
+            <strong> £{this.calculateNetByTargetAge()}</strong>
+          </span>
+          .
+        </p>
+      );
+      // Render the amount of debt accumulated
+    } else {
+      return (
+        <p>
+          Keeping up this lifestyle, you by your target age you will have a debt
+          of{" "}
+          <span className="text-danger">
+            <strong> £{Math.abs(this.calculateNetByTargetAge())}</strong>.
+          </span>
+        </p>
+      );
+    }
+  };
+
+  // Return the third paragraph of the failure summary
+  handleFailureParagraphThree = () => {
+    // Render the age-related parameters
+    if (this.calculateYearsToTarget() > 1) {
+      return (
+        <p>
+          {" "}
+          To earn <strong> £{this.state.targetNet}</strong> it would take you
+          <strong> {this.calculateYearsToTarget()}</strong> years, which means
+          you will be
+          <strong>
+            {" "}
+            {this.state.currentAge + this.calculateYearsToTarget()}
+          </strong>
+        </p>
+      );
+      // Skip the rendering of age-related parameters
+    } else {
+      return (
+        <p>
+          {" "}
+          Sadly, according to the current data, it will never be possible to
+          reach a net worth of <strong> £{this.state.targetNet}</strong>.
+        </p>
+      );
+    }
+  };
+
+  // Return the fourth paragraph of the failure summary
+  handleFailureParagraphFour = () => {
+    // Render the monthly expenses / yearly savings
+    if (this.calculateYearsToTarget() > 1) {
+      return (
+        <p>
+          Every month, the total of your expenses is
+          <strong> £{this.calculateYearlyExpenses() / 12}</strong>, which means
+          you are left with{" "}
+          <span className="text-success">
+            <strong>
+              £{Math.floor(Math.abs(this.calculateYearlySavings() / 12))}
+            </strong>
+          </span>{" "}
+          of savings.
+        </p>
+      );
+      // Render the monthly expenses and the amount of money spent per month which is causing the debt
+    } else {
+      return (
+        <p>
+          Every month, the total of your expenses is
+          <strong> £{this.calculateYearlyExpenses() / 12}</strong>, which means
+          every month you are spending{" "}
+          <span className="text-danger">
+            <strong>
+              {" "}
+              £{Math.floor(Math.abs(this.calculateYearlySavings() / 12))}
+            </strong>{" "}
+          </span>
+          more than you can afford!
+        </p>
+      );
+    }
+  };
+
+  // Return the first paragraph of the success summary
+  handleSuccessParagraphOne = () => {
+    return (
+      <p>
+        In your current situation, you will be able to reach your target net
+        worth by your target age!
+      </p>
+    );
+  };
+
+  // Return the second paragraph of the success summary
+  handleSuccessParagraphTwo = () => {
+    return (
+      <p>
+        By then, you will be worth
+        <span className="text-success">
+          <strong> £{this.calculateNetByTargetAge()}</strong>
+        </span>
+        .
+      </p>
+    );
+  };
+
+  // Return the third paragraph of the success summary
+  handleSuccessParagraphThree = () => {
+    if (this.calculateYearsToTarget() > 1) {
+      return (
+        <p>
+          To earn <strong> £{this.state.targetNet}</strong> it would take you
+          <strong> {this.calculateYearsToTarget()} </strong>
+          years, which means you will be
+          <strong>
+            {" "}
+            {this.calculateYearsToTarget() + this.state.currentAge}
+          </strong>
+          .
+        </p>
+      );
+    } else {
+      return (
+        <p>
+          To earn <strong> £{this.state.targetNet}</strong> it would take you
+          <strong> less than a year</strong>!
+        </p>
+      );
+    }
+  };
+
+  // Return the fourth paragraph of the success summary
+  handleSuccessParagraphFour = () => {
+    return (
+      <p>
+        Every month, the total of your expenses is
+        <strong> £{this.calculateYearlyExpenses() / 12}</strong>, which means
+        you are left with{" "}
+        <span className="text-success">
+          <strong>£{Math.floor(this.calculateYearlySavings() / 12)}</strong>
+        </span>{" "}
+        of savings.
+      </p>
+    );
+  };
+
   renderSummary = () => {
     // Render an empty div, only available if isDaydreamActive === false
     if (this.state.isTargetMet === "wait") {
@@ -200,31 +377,13 @@ class App extends Component {
         <React.Fragment>
           <img src={failureLogo} alt="failure logo" className="resultImage" />
           {/* Fail or success paragraph */}
-          <p>
-            In your current situation, it will not be possible to reach your
-            target net worth by your target age.
-          </p>
+          {this.handleFailureParagraphOne()}
           {/* Net worth by target age */}
-          <p>
-            However, by your target age you will be worth
-            <strong> £{this.calculateNetByTargetAge()}</strong>.
-          </p>
+          {this.handleFailureParagraphTwo()}
           {/* Years to reach target net worth */}
-          <p>
-            To earn <strong> £{this.state.targetNet}</strong> it would take you
-            <strong> {this.calculateYearsToTarget()}</strong> years, which means
-            you will be
-            <strong>
-              {" "}
-              {this.state.currentAge + this.calculateYearsToTarget()}
-            </strong>
-            .
-          </p>
+          {this.handleFailureParagraphThree()}
           {/* Total of expenses */}
-          <p>
-            Every month, the total of your expenses is
-            <strong> £{this.calculateYearlyExpenses() / 12}</strong>.
-          </p>
+          {this.handleFailureParagraphFour()}
           <small className="text-muted">
             Try playing around with the expenses to see how they affect your
             future net worth.
@@ -237,28 +396,14 @@ class App extends Component {
       return (
         <React.Fragment>
           <img src={successLogo} alt="success logo" className="resultImage" />
-          <p>
-            In your current situation, you will be able to reach your target net
-            worth by your target age!
-          </p>
-          <p>
-            By then, you will be worth
-            <strong> £{this.calculateNetByTargetAge()}</strong>.
-          </p>
-          <p>
-            To earn <strong> £{this.state.targetNet}</strong> it would take you
-            <strong> {this.calculateYearsToTarget()} </strong>
-            years, which means you will be
-            <strong>
-              {" "}
-              {this.calculateYearsToTarget() + this.state.currentAge}
-            </strong>
-            .
-          </p>
-          <p>
-            Every month, the total of your expenses is
-            <strong> {this.calculateYearlyExpenses() / 12}</strong>.
-          </p>
+          {/* Failure or success paragraph */}
+          {this.handleSuccessParagraphOne()}
+          {/* Net worth by target age */}
+          {this.handleSuccessParagraphTwo()}
+          {/* Years to reach target worth */}
+          {this.handleSuccessParagraphThree()}
+          {/* Total of expenses */}
+          {this.handleSuccessParagraphFour()}
           <small className="text-muted">
             Try playing around with the expenses to see how can they affect your
             future net worth.
