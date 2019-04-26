@@ -24,13 +24,31 @@ class App extends Component {
     currentNet: 5000,
     targetNet: 1000000,
     // Post-calculation values
-    isTargetMet: "wait" // 3 options: "yes" , "no" and "wait" (when there has not been a submission yet)
+    isTargetMet: "wait",
+    /*
+     3 options for isTargetMet: "yes" , "no" and "wait":
+     yes => call to this.renderSummary() which renders a 'success' screen;
+     no => call to this.renderSummary() which renders a 'failure' screen;
+     wait => call to this.renderSummary() returns a blank statement, thus clearing the mid section of the screen;
+     */
+    isDaydreamActive: false
+  };
+
+  // Change the state's isDaydreamActive according to user input
+  handleDaydreamCheckbox = event => {
+    this.setState({ isDaydreamActive: event.target.checked });
   };
   // Fetch the user input for the yearly income and set the state
   handleIncomeInput = event => {
-    console.log("starting fetchIncomeInput()");
+    console.log("starting handleIncomeInput()");
     console.log(event.target.value);
     this.setState({ income: event.target.value });
+    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    this.checkTargetMet();
+    // Clear the screen unless isDaydreamActive === true
+    if (!this.state.isDaydreamActive) {
+      this.setState({ isTargetMet: "wait" });
+    }
   };
   /* Fetch & handle the values of the EXPENSES */
   // Fetch the value of expenses dynamically upon change
@@ -52,7 +70,12 @@ class App extends Component {
     if (event.target.id === "beautyExpenses") {
       this.setState({ beautyExpenses: Number(event.target.value) });
     }
-    this.setState({ isTargetMet: "wait" });
+    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    this.checkTargetMet();
+    // Clear the screen unless isDaydreamActive === true
+    if (!this.state.isDaydreamActive) {
+      this.setState({ isTargetMet: "wait" });
+    }
   };
 
   // Handler functions to update the UI with the new values of the various expenses
@@ -89,7 +112,12 @@ class App extends Component {
     if (event.target.id === "targetNetInput") {
       this.setState({ targetNet: event.target.value });
     }
-    this.setState({ isTargetMet: "wait" });
+    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    this.checkTargetMet();
+    // Clear the screen unless isDaydreamActive === true
+    if (!this.state.isDaydreamActive) {
+      this.setState({ isTargetMet: "wait" });
+    }
   };
 
   // Handler functions to update the UI with the new values of the various targets
@@ -134,7 +162,7 @@ class App extends Component {
     console.log("starting calculateMinimumRequiredIncome()");
     let moneyToTarget = this.state.targetNet - this.state.currentNet;
     let yearsToTarget = this.state.targetAge - this.state.currentAge;
-    // Return the yearly money necessary to reach the target
+    // RhandleDaydreamCheckboxeturn the yearly money necessary to reach the target
     return moneyToTarget / yearsToTarget;
   };
 
@@ -146,14 +174,12 @@ class App extends Component {
       this.calculateYearlyOverallIncome() <
       this.calculateMinimumRequiredIncome()
     ) {
-      console.log("Target missed");
       this.setState({ isTargetMet: "no" });
       // Yearly money IN > yearly target
     } else if (
       this.calculateYearlyOverallIncome() >=
       this.calculateMinimumRequiredIncome()
     ) {
-      console.log("Target met");
       this.setState({ isTargetMet: "yes" });
     }
   };
@@ -164,10 +190,11 @@ class App extends Component {
   };
 
   renderSummary = () => {
-    // Render the summary div based on the TARGET NOT being MET
+    // Render an empty div, only available if isDaydreamActive === false
     if (this.state.isTargetMet === "wait") {
       return;
     }
+    // Render the summary div based on the TARGET NOT being MET
     if (this.state.isTargetMet === "no") {
       return (
         <React.Fragment>
@@ -199,7 +226,7 @@ class App extends Component {
             <strong> £{this.calculateYearlyExpenses() / 12}</strong>.
           </p>
           <small className="text-muted">
-            Try playing around with the expenses to see how they effect your
+            Try playing around with the expenses to see how they affect your
             future net worth.
           </small>
         </React.Fragment>
@@ -233,7 +260,7 @@ class App extends Component {
             <strong> {this.calculateYearlyExpenses() / 12}</strong>.
           </p>
           <small className="text-muted">
-            Try playing around with the expenses to see how can they effect your
+            Try playing around with the expenses to see how can they affect your
             future net worth.
           </small>
         </React.Fragment>
@@ -263,6 +290,7 @@ class App extends Component {
         <Income
           handleIncomeInput={this.handleIncomeInput}
           checkTargetMet={this.checkTargetMet}
+          handleDaydreamCheckbox={this.handleDaydreamCheckbox}
         />
         <Summary renderSummary={this.renderSummary} />
         <Target
