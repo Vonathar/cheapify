@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "289701df0614c02aef92717d7ed50fe3",
+    "revision": "bef65e389f12df3e680688a49f514308",
     "url": "/cheapify/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cheapify/static/css/2.22a7d4ef.chunk.css"
   },
   {
-    "revision": "57d3aa15af488580d67e",
+    "revision": "fd5295b409d126b104cb",
     "url": "/cheapify/static/css/main.d12cc2ba.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cheapify/static/js/2.6248f087.chunk.js"
   },
   {
-    "revision": "57d3aa15af488580d67e",
-    "url": "/cheapify/static/js/main.951b0435.chunk.js"
+    "revision": "fd5295b409d126b104cb",
+    "url": "/cheapify/static/js/main.eccf0330.chunk.js"
   },
   {
     "revision": "0b28f759a423edee9942",
