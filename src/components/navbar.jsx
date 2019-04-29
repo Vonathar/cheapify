@@ -7,7 +7,13 @@ class Navbar extends Component {
       <div>
         <nav className="navbar navbar-dark bg-dark">
           <a className="navbar-brand" href="#">
-            <img src={logo} width="75" height="75" alt="logo" />
+            <img
+              src={logo}
+              width="75"
+              height="75"
+              alt="logo"
+              id="navbar-logo"
+            />
             Cheapify
           </a>
         </nav>

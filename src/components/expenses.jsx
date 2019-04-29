@@ -15,14 +15,14 @@ class Expenses extends Component {
       <form id="expenses-form">
         {/* Range input for the FOOD expenses */}
         <div className="form-group , expenses-input">
-          <label htmlFor="foodExpenses">
+          <label htmlFor="foodExpenses" className="expenses-label">
             <img src={foodLogo} alt="Food logo" className="expense-icon" />
             Food expenses
           </label>
           <input
             type="range"
             value={this.props.foodExpenses}
-            className="form-control-range"
+            className="form-control-range , expenses-range"
             id="foodExpenses"
             min="0"
             max="1000"
@@ -38,7 +38,7 @@ class Expenses extends Component {
         </div>
         {/* Range input for the TRANSPORTATION expenses */}
         <div className="form-group , expenses-input">
-          <label htmlFor="transportationExpenses">
+          <label htmlFor="transportationExpenses" className="expenses-label">
             <img
               src={transportationLogo}
               alt="Transportation logo"
@@ -49,7 +49,7 @@ class Expenses extends Component {
           <input
             type="range"
             value={this.props.transportationExpenses}
-            className="form-control-range"
+            className="form-control-range , expenses-range"
             id="transportationExpenses"
             min="0"
             max="1000"
@@ -65,14 +65,14 @@ class Expenses extends Component {
         </div>
         {/* Range input for the HOUSE expenses */}
         <div className="form-group , expenses-input">
-          <label htmlFor="houseExpenses">
+          <label htmlFor="houseExpenses" className="expenses-label">
             <img src={houseLogo} alt="House logo" className="expense-icon" />
             Mortgage/Rent expenses
           </label>
           <input
             type="range"
             value={this.props.houseExpenses}
-            className="form-control-range"
+            className="form-control-range , expenses-range"
             id="houseExpenses"
             min="0"
             max="5000"
@@ -88,7 +88,7 @@ class Expenses extends Component {
         </div>
         {/* Range input for the LEISURE expenses */}
         <div className="form-group , expenses-input">
-          <label htmlFor="leisureExpenses">
+          <label htmlFor="leisureExpenses" className="expenses-label">
             <img
               src={leisureLogo}
               alt="Leisure logo"
@@ -99,7 +99,7 @@ class Expenses extends Component {
           <input
             type="range"
             value={this.props.leisureExpenses}
-            className="form-control-range"
+            className="form-control-range , expenses-range"
             id="leisureExpenses"
             min="0"
             max="1000"
@@ -115,14 +115,14 @@ class Expenses extends Component {
         </div>
         {/* Range input for the BEAUTY expenses */}
         <div className="form-group , expenses-input">
-          <label htmlFor="beautyExpenses">
+          <label htmlFor="beautyExpenses" className="expenses-label">
             <img src={beautyLogo} alt="Beauty logo" className="expense-icon" />
             Beauty expenses
           </label>
           <input
             type="range"
             value={this.props.beautyExpenses}
-            className="form-control-range"
+            className="form-control-range , expenses-range"
             id="beautyExpenses"
             min="0"
             max="1000"

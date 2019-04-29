@@ -17,9 +17,18 @@ body {
 /* Individual */
 #summary-div {
   width: 20vw;
+  top: 40vh;
+
   left: 40vw;
   position: absolute;
   text-align: center;
+}
+
+#summary-ul {
+  width: 20vw;
+  position: relative;
+  top: 5vh;
+  left: 40vw;
 }
 
 #income-form-holder {
@@ -28,17 +37,6 @@ body {
   height: 1vh;
   top: 10vh;
   text-align: center;
-}
-
-#summary-div {
-  top: 40vh;
-}
-
-#summary-ul {
-  width: 20vw;
-  position: relative;
-  top: 5vh;
-  left: 40vw;
 }
 
 #income-form {
@@ -100,4 +98,93 @@ body {
 
 .resultImage {
   padding-bottom: 3vh;
+}
+
+/* Responsiveness to queries */
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+  :root {
+    font-size: 0.8em;
+  }
+  #expenses-form {
+    position: fixed;
+    left: 1vw;
+    width: 60vw;
+    top: 60vh;
+    margin-left: 1vw;
+  }
+  #target-form {
+    position: fixed;
+    right: 1vw;
+    width: 25vw;
+    top: 55vh;
+    margin-right: 1vw;
+  }
+  .target-icon {
+    float: left;
+    height: 3vh;
+  }
+
+  .expenses-label {
+    float: left;
+    margin-right: 5vw;
+    position: relative;
+    bottom: 2vh;
+    font-size: 0;
+  }
+  .expenses-range {
+    width: 65% !important;
+  }
+  #navbar-logo {
+    width: 40px;
+    height: 40px;
+  }
+  #income-form {
+    position: relative;
+    top: 0;
+    width: 50vw;
+    display: inline-block;
+  }
+
+  #summary-div {
+    width: 95vw;
+    font-size: 0.8em;
+    top: 30vh;
+    left: 0;
+    position: absolute;
+    text-align: center;
+  }
+
+  #summary-ul {
+    width: 20vw;
+    position: relative;
+    top: 5vh;
+    left: 40vw;
+  }
+
+  .resultImage {
+    height: 8vh;
+    float: left;
+    position: relative;
+    bottom: 2vw;
+    margin-left: 1vw;
+    padding: 1vw;
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width: 601px) and (max-width: 960px) {
+  #income-form {
+    top: 2vh;
+    display: inline-block;
+  }
+  #summary-div {
+    width: 30vw;
+    top: 35vh;
+
+    left: 35vw;
+    position: absolute;
+    text-align: center;
+  }
 }
