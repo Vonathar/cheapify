@@ -16,9 +16,9 @@ class Income extends Component {
               className="form-control"
               id="incomeInputText"
               aria-describedby="incomeHelp"
-              placeholder="12000..."
+              placeholder="12,000..."
               onKeyDown={event => {
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                   event.preventDefault();
                   this.props.checkTargetMet();
                 }

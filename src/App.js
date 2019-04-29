@@ -104,19 +104,19 @@ class App extends Component {
 
   // Handler functions to update the UI with the new values of the various expenses
   handleFoodExpensesText = () => {
-    return this.state.foodExpenses;
+    return this.state.foodExpenses.toLocaleString();
   };
   handleTransportationExpensesText = () => {
-    return this.state.transportationExpenses;
+    return this.state.transportationExpenses.toLocaleString();
   };
   handleHouseExpensesText = () => {
-    return this.state.houseExpenses;
+    return this.state.houseExpenses.toLocaleString();
   };
   handleLeisureExpensesText = () => {
-    return this.state.leisureExpenses;
+    return this.state.leisureExpenses.toLocaleString();
   };
   handleBeautyExpensesText = () => {
-    return this.state.beautyExpenses;
+    return this.state.beautyExpenses.toLocaleString();
   };
 
   /* Fetch & handle the values of the TARGETS */
@@ -131,10 +131,10 @@ class App extends Component {
       this.setState({ targetAge: Number(event.target.value) });
     }
     if (event.target.id === "currentNetInput") {
-      this.setState({ currentNet: event.target.value });
+      this.setState({ currentNet: Number(event.target.value) });
     }
     if (event.target.id === "targetNetInput") {
-      this.setState({ targetNet: event.target.value });
+      this.setState({ targetNet: Number(event.target.value) });
     }
     // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
     this.checkTargetMet();
@@ -149,7 +149,7 @@ class App extends Component {
     return this.state.targetAge;
   };
   handleTargetNetText = () => {
-    return this.state.targetNet;
+    return this.state.targetNet.toLocaleString();
   };
 
   // All the expenses summed (YEARLY)
@@ -244,7 +244,7 @@ class App extends Component {
         <p>
           However, by your target age you will be worth
           <span className="text-success">
-            <strong> £{this.calculateNetByTargetAge()}</strong>
+            <strong> £{this.calculateNetByTargetAge().toLocaleString()}</strong>
           </span>
           .
         </p>
@@ -256,7 +256,14 @@ class App extends Component {
           Keeping up this lifestyle, you by your target age you will have a debt
           of{" "}
           <span className="text-danger">
-            <strong> £{Math.abs(this.calculateNetByTargetAge())}</strong>.
+            <strong>
+              {" "}
+              £
+              {Math.abs(
+                this.calculateNetByTargetAge().toString()
+              ).toLocaleString()}
+            </strong>
+            .
           </span>
         </p>
       );
@@ -270,7 +277,9 @@ class App extends Component {
       return (
         <p>
           {" "}
-          To earn <strong> £{this.state.targetNet}</strong> it would take you
+          To earn{" "}
+          <strong> £{Number(this.state.targetNet).toLocaleString()}</strong> it
+          would take you
           <strong> {this.calculateYearsToTarget()}</strong> years, which means
           you will be
           <strong>
@@ -285,7 +294,8 @@ class App extends Component {
         <p>
           {" "}
           Sadly, according to the current data, it will never be possible to
-          reach a net worth of <strong> £{this.state.targetNet}</strong>.
+          reach a net worth of{" "}
+          <strong> £{Number(this.state.targetNet).toLocaleString()}</strong>.
         </p>
       );
     }
@@ -297,12 +307,17 @@ class App extends Component {
     if (this.calculateYearsToTarget() > 1) {
       return (
         <p>
-          Every month, the total of your expenses is
-          <strong> £{this.calculateYearlyExpenses() / 12}</strong>, which means
-          you are left with{" "}
+          Every month, the total of your expenses is{" "}
+          <strong>
+            £{(this.calculateYearlyExpenses() / 12).toLocaleString()}
+          </strong>
+          , which means you are left with{" "}
           <span className="text-success">
             <strong>
-              £{Math.floor(Math.abs(this.calculateYearlySavings() / 12))}
+              £
+              {Math.floor(
+                Math.abs(this.calculateYearlySavings() / 12)
+              ).toLocaleString()}
             </strong>
           </span>{" "}
           of savings.
@@ -313,12 +328,18 @@ class App extends Component {
       return (
         <p>
           Every month, the total of your expenses is
-          <strong> £{this.calculateYearlyExpenses() / 12}</strong>, which means
-          every month you are spending{" "}
+          <strong>
+            {" "}
+            £{(this.calculateYearlyExpenses() / 12).toLocaleString()}
+          </strong>
+          , which means every month you are spending{" "}
           <span className="text-danger">
             <strong>
               {" "}
-              £{Math.floor(Math.abs(this.calculateYearlySavings() / 12))}
+              £
+              {Math.floor(
+                Math.abs(this.calculateYearlySavings() / 12)
+              ).toLocaleString()}
             </strong>{" "}
           </span>
           more than you can afford!
