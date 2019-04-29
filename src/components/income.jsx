@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import daydreamIcon from "../img/daydream-icon.png";
+import textinputIcon from "../img/textinput-icon.png";
 
 /* The Income component returns a UI which allows the user to input the yearly income. */
 class Income extends Component {
@@ -39,27 +40,54 @@ class Income extends Component {
             >
               Calculate
             </button>
-            <div class="custom-control custom-checkbox" id="dayDream-div">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="dayDream-input"
-                onChange={this.props.handleDaydreamCheckbox}
-              />
-              <label
-                class="custom-control-label small text-muted"
-                for="dayDream-input"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title="Change all parameters and update your results live. Perfect to see how your lifestyle affects your future net worth!"
-              >
-                Daydream mode
-                <img
-                  src={daydreamIcon}
-                  alt="Daydream"
-                  className="userSettings-icon"
+            <div id="userSettings-div">
+              <div class="custom-control custom-checkbox" id="dayDream-div">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="dayDream-input"
+                  onChange={this.props.handleDaydreamCheckbox}
                 />
-              </label>
+                <label
+                  class="custom-control-label small text-muted"
+                  for="dayDream-input"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="Change all parameters and update your results live. Perfect to see how your lifestyle affects your future net worth!"
+                >
+                  Daydream mode
+                  <img
+                    src={daydreamIcon}
+                    alt="Daydream"
+                    className="userSettings-icon"
+                  />
+                </label>
+              </div>
+              <div
+                class="custom-control custom-checkbox"
+                id="textInputsActivation-div"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="textInput-input"
+                  onChange={this.props.handleTextInputsCheckbox}
+                />
+                <label
+                  class="custom-control-label small text-muted"
+                  for="textInput-input"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="Use text fields to type in specific values, when a slider is not precise enough."
+                >
+                  Activate text fields
+                  <img
+                    src={textinputIcon}
+                    alt="Text input"
+                    className="userSettings-icon"
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </form>

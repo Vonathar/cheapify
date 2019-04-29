@@ -28,6 +28,13 @@ class Expenses extends Component {
             max="1000"
             onChange={this.props.handleExpensesInput}
           />
+          <input
+            type="text"
+            value={this.props.foodExpenses}
+            className={this.props.handleTextInputsActivationExpenses()}
+            id="foodExpenses"
+            onChange={this.props.handleExpensesInput}
+          />
           <small
             id="foodExpensesHelp"
             className="form-text text-muted expenses-help"
@@ -55,6 +62,13 @@ class Expenses extends Component {
             max="1000"
             onChange={this.props.handleExpensesInput}
           />
+          <input
+            type="text"
+            value={this.props.transportationExpenses}
+            className={this.props.handleTextInputsActivationExpenses()}
+            id="transportationExpenses"
+            onChange={this.props.handleExpensesInput}
+          />
           <small
             id="transportationExpensesHelp"
             className="form-text text-muted expenses-help"
@@ -76,6 +90,13 @@ class Expenses extends Component {
             id="houseExpenses"
             min="0"
             max="5000"
+            onChange={this.props.handleExpensesInput}
+          />
+          <input
+            type="text"
+            value={this.props.houseExpenses}
+            className={this.props.handleTextInputsActivationExpenses()}
+            id="houseExpenses"
             onChange={this.props.handleExpensesInput}
           />
           <small
@@ -105,6 +126,13 @@ class Expenses extends Component {
             max="1000"
             onChange={this.props.handleExpensesInput}
           />
+          <input
+            type="text"
+            value={this.props.leisureExpenses}
+            className={this.props.handleTextInputsActivationExpenses()}
+            id="leisureExpenses"
+            onChange={this.props.handleExpensesInput}
+          />
           <small
             id="leisureExpensesHelp"
             className="form-text text-muted expenses-help"
@@ -126,6 +154,13 @@ class Expenses extends Component {
             id="beautyExpenses"
             min="0"
             max="1000"
+            onChange={this.props.handleExpensesInput}
+          />
+          <input
+            type="text"
+            value={this.props.beautyExpenses}
+            className={this.props.handleTextInputsActivationExpenses()}
+            id="beautyExpenses"
             onChange={this.props.handleExpensesInput}
           />
           <small

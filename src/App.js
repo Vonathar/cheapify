@@ -31,13 +31,37 @@ class App extends Component {
      no => call to this.renderSummary() which renders a 'failure' screen;
      wait => call to this.renderSummary() returns a blank statement, thus clearing the mid section of the screen;
      */
-    isDaydreamActive: false
+    isDaydreamActive: false,
+    areTextInputsActive: false
   };
 
   // Change the state's isDaydreamActive according to user input
   handleDaydreamCheckbox = event => {
     this.setState({ isDaydreamActive: event.target.checked });
   };
+
+  // Change the state's areTextInputsActive according to user input
+  handleTextInputsCheckbox = event => {
+    console.log("starting handleTextInputsCheckbox()");
+    this.setState({ areTextInputsActive: event.target.checked });
+  };
+
+  handleTextInputsActivationExpenses = () => {
+    let classes = "form-control form-control-sm expenses-textInput ";
+    if (!this.state.areTextInputsActive) {
+      classes += "noDisplay";
+    }
+    return classes;
+  };
+
+  handleTextInputsActivationTargets = () => {
+    let classes = "form-control form-control-sm target-textInput ";
+    if (!this.state.areTextInputsActive) {
+      classes += "noDisplay";
+    }
+    return classes;
+  };
+
   // Fetch the user input for the yearly income and set the state
   handleIncomeInput = event => {
     console.log("starting handleIncomeInput()");
@@ -425,6 +449,9 @@ class App extends Component {
           beautyExpenses={this.beautyExpenses}
           handleExpensesInput={this.handleExpensesInput}
           handleFoodExpensesText={this.handleFoodExpensesText}
+          handleTextInputsActivationExpenses={
+            this.handleTextInputsActivationExpenses
+          }
           handleTransportationExpensesText={
             this.handleTransportationExpensesText
           }
@@ -436,6 +463,7 @@ class App extends Component {
           handleIncomeInput={this.handleIncomeInput}
           checkTargetMet={this.checkTargetMet}
           handleDaydreamCheckbox={this.handleDaydreamCheckbox}
+          handleTextInputsCheckbox={this.handleTextInputsCheckbox}
         />
         <Summary renderSummary={this.renderSummary} />
         <Target
@@ -443,6 +471,9 @@ class App extends Component {
           handleTargetInput={this.handleTargetInput}
           handleTargetAgeText={this.handleTargetAgeText}
           handleTargetNetText={this.handleTargetNetText}
+          handleTextInputsActivationTargets={
+            this.handleTextInputsActivationTargets
+          }
         />
       </div>
     );

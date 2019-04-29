@@ -15,6 +15,11 @@ body {
 }
 
 /* Individual */
+
+.noDisplay {
+  display: none !important;
+}
+
 #summary-div {
   width: 20vw;
   top: 40vh;
@@ -55,7 +60,7 @@ body {
   top: 2vh;
 }
 
-#dayDream-div {
+#userSettings-div {
   position: relative;
   top: 3vh;
 }
@@ -69,7 +74,7 @@ body {
 
 #expenses-form {
   position: fixed;
-  left: 1vw;
+  left: 2vw;
   width: 25vw;
   top: 20vh;
 }
@@ -77,6 +82,19 @@ body {
 .expenses-input,
 .target-input {
   padding-bottom: 1vh;
+}
+
+.expenses-textInput {
+  height: 2vh !important;
+  text-align: center;
+  width: 5vw !important;
+  position: relative;
+  left: 10vw;
+}
+
+.target-textInput {
+  height: 2vh !important;
+  text-align: center;
 }
 
 .expenses-help,
@@ -91,7 +109,7 @@ body {
 
 #target-form {
   position: fixed;
-  right: 1vw;
+  right: 2vw;
   width: 25vw;
   top: 30vh;
 }

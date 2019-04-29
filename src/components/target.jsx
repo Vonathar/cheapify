@@ -7,21 +7,21 @@ class Target extends Component {
     return (
       <form id="target-form">
         {/* Text input for the current age */}
-        <div className="form-group , target-input">
+        <div className="form-group target-input">
           <label htmlFor="currentAgeInput">
             <img src={youngManImage} className="target-icon" alt="man icon" />
             Current age
           </label>
           <input
             type="text"
-            className="form-control"
+            className="form-control form-control-sm target-textInput"
             id="currentAgeInput"
             placeholder="18..."
             onChange={this.props.handleTargetInput}
           />
         </div>
         {/* Range input for the target age */}
-        <div className="form-group , target-input">
+        <div className="form-group target-input">
           <label htmlFor="targetAgeInput">Target age</label>
           <input
             type="range"
@@ -29,6 +29,12 @@ class Target extends Component {
             id="targetAgeInput"
             min="10"
             max="100"
+            onChange={this.props.handleTargetInput}
+          />
+          <input
+            type="text"
+            className={this.props.handleTextInputsActivationTargets()}
+            id="targetAgeInput"
             onChange={this.props.handleTargetInput}
           />
           <small
@@ -39,16 +45,19 @@ class Target extends Component {
           </small>
         </div>
         {/* Text input for the current net worth */}
-        <div className="form-group , target-input">
+        <div className="form-group target-input">
           <label htmlFor="currentNetInput">Current net worth</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control form-control-sm target-textInput"
             id="currentNetInput"
             placeholder="5000..."
             onChange={this.props.handleTargetInput}
           />
-          <small id="incomeInputHelp" className="form-text text-muted">
+          <small
+            id="incomeInputHelp"
+            className="form-text text-muted target-help"
+          >
             Please do not use signs to separate digits.
           </small>
         </div>
@@ -62,6 +71,13 @@ class Target extends Component {
             id="targetNetInput"
             min="0"
             max="2000000"
+            onChange={this.props.handleTargetInput}
+          />
+          <input
+            type="text"
+            value={this.props.targetNet}
+            className={this.props.handleTextInputsActivationTargets()}
+            id="targetNetInput"
             onChange={this.props.handleTargetInput}
           />
           <small
