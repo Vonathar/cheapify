@@ -11,18 +11,18 @@ import successLogo from "./img/success.png";
 class App extends Component {
   state = {
     // User input
-    income: 12000,
+    income: 25000,
     // Expenses
-    foodExpenses: 500,
-    transportationExpenses: 500,
-    houseExpenses: 2500,
-    leisureExpenses: 500,
-    beautyExpenses: 500,
+    foodExpenses: 100,
+    transportationExpenses: 150,
+    houseExpenses: 750,
+    leisureExpenses: 50,
+    beautyExpenses: 25,
     // Targets
     currentAge: 18,
     targetAge: 50,
     currentNet: 5000,
-    targetNet: 1000000,
+    targetNet: 250000,
     // Post-calculation values
     isTargetMet: "wait",
     /*
@@ -32,7 +32,9 @@ class App extends Component {
      wait => call to this.renderSummary() returns a blank statement, thus clearing the mid section of the screen;
      */
     isDaydreamActive: false,
-    areTextInputsActive: false
+    areTextInputsActive: false,
+    // !!!!!!!!!!!!!!!!!!! CHANGE BACK TO FALSE !!!!!!!!!!!!!!!!!!!!!!
+    isDetailedSummaryActive: false
   };
 
   // Change the state's isDaydreamActive according to user input
@@ -46,6 +48,13 @@ class App extends Component {
     this.setState({ areTextInputsActive: event.target.checked });
   };
 
+  // Change the state's isDetailedSummaryActive according to user input
+  handleDetailedSummaryCheckbox = event => {
+    console.log("starting handleDetailedSummaryCheckbox()");
+    this.setState({ isDetailedSummaryActive: event.target.checked });
+  };
+
+  // Add text inputs to the 'expenses'
   handleTextInputsActivationExpenses = () => {
     let classes = "form-control form-control-sm expenses-textInput ";
     if (!this.state.areTextInputsActive) {
@@ -54,6 +63,7 @@ class App extends Component {
     return classes;
   };
 
+  // Add text inputs to the 'targets'
   handleTextInputsActivationTargets = () => {
     let classes = "form-control form-control-sm target-textInput ";
     if (!this.state.areTextInputsActive) {
@@ -62,10 +72,19 @@ class App extends Component {
     return classes;
   };
 
+  // Toggle opacity level from 0 to 1 ( fullOpacity -> expenses/target divs disappear)
+  handleDetailedSummaryActivation = () => {
+    return this.state.isDetailedSummaryActive ? "fullOpacity" : "noOpacity";
+  };
+
+  // Toggle the opacity level from 0 to 1 (fullOpacity -> detailed summary disappears)
+  handleDetailedSummary = () => {
+    return !this.state.isDetailedSummaryActive ? "fullOpacity" : "noOpacity";
+  };
+
   // Fetch the user input for the yearly income and set the state
   handleIncomeInput = event => {
     console.log("starting handleIncomeInput()");
-    console.log(event.target.value);
     this.setState({ income: event.target.value });
     // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
     this.checkTargetMet();
@@ -123,7 +142,6 @@ class App extends Component {
   // Fetch the value of targets dynamically upon change
   handleTargetInput = event => {
     console.log("starting handleTargetInput()");
-    console.log(event.target.value);
     if (event.target.id === "currentAgeInput") {
       this.setState({ currentAge: Number(event.target.value) });
     }
@@ -194,8 +212,25 @@ class App extends Component {
     console.log("starting calculateMinimumRequiredIncome()");
     let moneyToTarget = this.state.targetNet - this.state.currentNet;
     let yearsToTarget = this.state.targetAge - this.state.currentAge;
-    // RhandleDaydreamCheckboxeturn the yearly money necessary to reach the target
+    // Return the yearly money necessary to reach the target
     return moneyToTarget / yearsToTarget;
+  };
+
+  // The yearly maximum spendable money which will still allow to reach the target age and meet the target net
+  calculateYearlyMaxSpendToTarget = () => {
+    return (
+      Number(this.state.income) +
+      this.state.currentNet / (this.state.targetAge - this.state.currentAge) -
+      this.calculateMinimumRequiredIncome()
+    );
+  };
+
+  // The yearly maximum spendable money which will still allow to reach the target age debt free
+  calculateYearlyMaxSpendToNoDebt = () => {
+    return (
+      Number(this.state.income) +
+      this.state.currentNet / (this.state.targetAge - this.state.currentAge)
+    );
   };
 
   // Check the money made in a year is more than the minimum required to meet target
@@ -216,9 +251,71 @@ class App extends Component {
     }
   };
 
+  // Calculate the net worth by the target age
   calculateNetByTargetAge = () => {
     let yearsToTarget = this.state.targetAge - this.state.currentAge;
     return this.calculateYearlyOverallIncome() * yearsToTarget;
+  };
+
+  // Calculate how long the target net worth would last according to the currently selected expenses
+
+  calculateDurationOfTargetNet = () => {
+    // If > 1 year
+    if (this.state.targetNet / this.calculateYearlyExpenses() > 1) {
+      return (
+        Math.floor(this.state.targetNet / this.calculateYearlyExpenses()) +
+        " years."
+      );
+      // If < 1 year
+    } else if (this.state.targetNet / (this.calculateYearlyExpenses() / 12 > 1))
+      return (
+        Math.floor(
+          this.state.targetNet / (this.calculateYearlyExpenses() / 12)
+        ) + " months."
+      );
+  };
+
+  // Calculate how long the current net worth would last according to the currently selected expenses
+
+  calculateDurationOfCurrentNet = () => {
+    // If > 1 year
+    if (this.state.currentNet / this.calculateYearlyExpenses() > 1) {
+      return (
+        Math.floor(this.state.currentNet / this.calculateYearlyExpenses()) +
+        " years."
+      );
+      // If < 1 year
+    } else if (
+      this.state.currentNet /
+      (this.calculateYearlyExpenses() / 12 > 1)
+    ) {
+      return (
+        Math.floor(
+          this.state.currentNet / (this.calculateYearlyExpenses() / 12)
+        ) + " months."
+      );
+    }
+  };
+
+  // The time it would take to become a millionaire by the current pace
+  calculateTimeToMillionaire = () => {
+    // If > 1 year
+    if (1000000 / this.calculateYearlyOverallIncome() > 1) {
+      return (
+        Math.floor(1000000 / this.calculateYearlyOverallIncome()) + " years."
+      );
+      // If < 1 year
+    } else if (1000000 / this.calculateYearlyOverallIncome() < 1) {
+      return (
+        Math.floor(1000000 / this.calculateYearlyOverallIncome()) + " months."
+      );
+    }
+  };
+
+  calculateSavingsByExpensesReduction = percentage => {
+    return Math.floor(
+      (this.calculateYearlySavings() / 100) * percentage
+    ).toLocaleString();
   };
 
   /* 
@@ -364,7 +461,10 @@ class App extends Component {
       <p>
         By then, you will be worth
         <span className="text-success">
-          <strong> £{this.calculateNetByTargetAge()}</strong>
+          <strong>
+            {" "}
+            £{Number(this.calculateNetByTargetAge()).toLocaleString()}
+          </strong>
         </span>
         .
       </p>
@@ -376,7 +476,8 @@ class App extends Component {
     if (this.calculateYearsToTarget() > 1) {
       return (
         <p>
-          To earn <strong> £{this.state.targetNet}</strong> it would take you
+          To earn <strong> £{this.state.targetNet.toLocaleString()}</strong> it
+          would take you
           <strong> {this.calculateYearsToTarget()} </strong>
           years, which means you will be
           <strong>
@@ -389,7 +490,8 @@ class App extends Component {
     } else {
       return (
         <p>
-          To earn <strong> £{this.state.targetNet}</strong> it would take you
+          To earn <strong> £{this.state.targetNet.toLocaleString()}</strong> it
+          would take you
           <strong> less than a year</strong>!
         </p>
       );
@@ -401,10 +503,15 @@ class App extends Component {
     return (
       <p>
         Every month, the total of your expenses is
-        <strong> £{this.calculateYearlyExpenses() / 12}</strong>, which means
-        you are left with{" "}
+        <strong>
+          {" "}
+          £{(this.calculateYearlyExpenses() / 12).toLocaleString()}
+        </strong>
+        , which means you are left with{" "}
         <span className="text-success">
-          <strong>£{Math.floor(this.calculateYearlySavings() / 12)}</strong>
+          <strong>
+            £{Math.floor(this.calculateYearlySavings() / 12).toLocaleString()}
+          </strong>
         </span>{" "}
         of savings.
       </p>
@@ -469,6 +576,7 @@ class App extends Component {
           leisureExpenses={this.leisureExpenses}
           beautyExpenses={this.beautyExpenses}
           handleExpensesInput={this.handleExpensesInput}
+          handleDetailedSummaryActivation={this.handleDetailedSummaryActivation}
           handleFoodExpensesText={this.handleFoodExpensesText}
           handleTextInputsActivationExpenses={
             this.handleTextInputsActivationExpenses
@@ -485,8 +593,25 @@ class App extends Component {
           checkTargetMet={this.checkTargetMet}
           handleDaydreamCheckbox={this.handleDaydreamCheckbox}
           handleTextInputsCheckbox={this.handleTextInputsCheckbox}
+          handleDetailedSummaryCheckbox={this.handleDetailedSummaryCheckbox}
         />
-        <Summary renderSummary={this.renderSummary} />
+        <Summary
+          renderSummary={this.renderSummary}
+          handleDetailedSummary={this.handleDetailedSummary}
+          state={this.state}
+          calculateYearlyOverallIncome={this.calculateYearlyOverallIncome}
+          calculateMinimumRequiredIncome={this.calculateMinimumRequiredIncome}
+          calculateYearlyMaxSpendToTarget={this.calculateYearlyMaxSpendToTarget}
+          calculateYearlyMaxSpendToNoDebt={this.calculateYearlyMaxSpendToNoDebt}
+          calculateDurationOfTargetNet={this.calculateDurationOfTargetNet}
+          calculateDurationOfCurrentNet={this.calculateDurationOfCurrentNet}
+          calculateTimeToMillionaire={this.calculateTimeToMillionaire}
+          calculateSavingsByExpensesReduction={
+            this.calculateSavingsByExpensesReduction
+          }
+          calculateYearlySavings={this.calculateYearlySavings}
+          calculateYearlyExpenses={this.calculateYearlyExpenses}
+        />
         <Target
           targetNet={this.targetNet}
           handleTargetInput={this.handleTargetInput}
@@ -495,6 +620,7 @@ class App extends Component {
           handleTextInputsActivationTargets={
             this.handleTextInputsActivationTargets
           }
+          handleDetailedSummaryActivation={this.handleDetailedSummaryActivation}
         />
       </div>
     );

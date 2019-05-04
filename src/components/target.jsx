@@ -5,7 +5,10 @@ import youngManImage from "../img/man-young.png";
 class Target extends Component {
   render() {
     return (
-      <form id="target-form">
+      <form
+        id="target-form"
+        className={this.props.handleDetailedSummaryActivation()}
+      >
         {/* Text input for the current age */}
         <div className="form-group target-input">
           <label htmlFor="currentAgeInput">

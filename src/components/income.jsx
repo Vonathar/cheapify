@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import daydreamIcon from "../img/daydream-icon.png";
 import textinputIcon from "../img/textinput-icon.png";
+import detailedsummaryIcon from "../img/detailedsummary-icon.png";
 
 /* The Income component returns a UI which allows the user to input the yearly income. */
 class Income extends Component {
@@ -16,7 +17,7 @@ class Income extends Component {
               className="form-control"
               id="incomeInputText"
               aria-describedby="incomeHelp"
-              placeholder="12,000..."
+              placeholder="25,000..."
               onKeyDown={event => {
                 if (event.keyCode === 13) {
                   event.preventDefault();
@@ -40,7 +41,9 @@ class Income extends Component {
             >
               Calculate
             </button>
+            {/* Settings div holding the checkboxes used to define user settings */}
             <div id="userSettings-div">
+              {/* UI for Daydream */}
               <div class="custom-control custom-checkbox" id="dayDream-div">
                 <input
                   type="checkbox"
@@ -63,6 +66,7 @@ class Income extends Component {
                   />
                 </label>
               </div>
+              {/* UI for Text Input */}
               <div
                 class="custom-control custom-checkbox"
                 id="textInputsActivation-div"
@@ -83,6 +87,32 @@ class Income extends Component {
                   Activate text fields
                   <img
                     src={textinputIcon}
+                    alt="Text input"
+                    className="userSettings-icon"
+                  />
+                </label>
+              </div>
+              {/* UI for Detailed Summary*/}
+              <div
+                class="custom-control custom-checkbox"
+                id="detailedSummary-div"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="detailedSummary-input"
+                  onChange={this.props.handleDetailedSummaryCheckbox}
+                />
+                <label
+                  class="custom-control-label small text-muted"
+                  for="detailedSummary-input"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="Show a more detailed summary, including extra stats calculated from the given data."
+                >
+                  Detailed summary
+                  <img
+                    src={detailedsummaryIcon}
                     alt="Text input"
                     className="userSettings-icon"
                   />

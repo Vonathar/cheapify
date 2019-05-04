@@ -12,7 +12,10 @@ import beautyLogo from "../img/beauty.png";
 class Expenses extends Component {
   render() {
     return (
-      <form id="expenses-form">
+      <form
+        id="expenses-form"
+        className={this.props.handleDetailedSummaryActivation()}
+      >
         {/* Range input for the FOOD expenses */}
         <div className="form-group , expenses-input">
           <label htmlFor="foodExpenses" className="expenses-label">
