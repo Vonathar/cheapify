@@ -1,6 +1,16 @@
-Smart savings calculator based on real-life parameters.
+# Cheapify
 
-1. Input the _yearly_ salary on the top part of the screen
-2. Add _monthly_ expenses using the sliders on the left side of the screen
-3. Insert the information about the net worth on the right, including age and target age
-4. Press 'Calculate' to know whether the goal is attainable or it requires some tweakings.
+Cheapify is an online tool used to calculate salary and expenses over time. It can be used for any sort of financial planning, including but not limited to:
+
+- Expenses management
+- Job offer evaluation
+- Investment safety calculator
+
+# New Features!
+
+- Insert the gross salary and the taxation cauntry, and the net will be automatically calculated according to the national tax bands
+- 'Salary Increase' option, which automatically calculates the gradual increase of salary over time
+
+## License
+
+MIT
