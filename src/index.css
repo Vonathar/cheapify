@@ -35,7 +35,7 @@ body {
 
 #summary-div {
   width: 20vw;
-  top: 50vh;
+  top: 52vh;
   left: 40vw;
   position: absolute;
   text-align: center;
@@ -46,6 +46,20 @@ body {
   position: relative;
   top: 5vh;
   left: 40vw;
+}
+
+#salaryIncreaseSettings-holder {
+  position: relative;
+  left: 9vw;
+  top: 1vh;
+  width: 20vw;
+  display: flex;
+}
+
+#salaryIncreaseSettings-input {
+  height: 2em;
+  width: 5vw;
+  margin-left: 2em;
 }
 
 .detailedSummaryElement {
@@ -69,14 +83,14 @@ body {
   width: 7vw;
   position: relative;
   left: 11.5vw;
-  top: 0.5vh;
+  top: 3vh;
 }
 
 #income-form-holder {
   width: 100%;
   position: absolute;
   height: 1vh;
-  top: 10vh;
+  top: 8vh;
   text-align: center;
 }
 
@@ -88,17 +102,17 @@ body {
 }
 
 .userSettings-icon {
-  height: 2.5vh;
+  height: 2vh;
 }
 
 #submitButton {
   position: relative;
-  top: 2vh;
+  top: 4vh;
 }
 
 #userSettings-div {
   position: relative;
-  top: 3vh;
+  top: 5vh;
 }
 
 .userSettings-icon {

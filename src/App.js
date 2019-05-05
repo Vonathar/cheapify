@@ -12,6 +12,7 @@ class App extends Component {
   state = {
     // User input
     income: 25000,
+    targetIncome: 55000,
     // Expenses
     foodExpenses: 100,
     transportationExpenses: 150,
@@ -35,8 +36,8 @@ class App extends Component {
      */
     isDaydreamActive: false,
     areTextInputsActive: false,
-    // !!!!!!!!!!!!!!!!!!! CHANGE BACK TO FALSE !!!!!!!!!!!!!!!!!!!!!!
-    isDetailedSummaryActive: false
+    isDetailedSummaryActive: false,
+    isSalaryIncreaseActive: false
   };
 
   // Change the state's isDaydreamActive according to user input
@@ -54,6 +55,12 @@ class App extends Component {
   handleDetailedSummaryCheckbox = event => {
     console.log("starting handleDetailedSummaryCheckbox()");
     this.setState({ isDetailedSummaryActive: event.target.checked });
+  };
+
+  // Change the state's isSalaryIncreaseActive according to user input
+  handleSalaryIncreaseCheckbox = event => {
+    console.log("starting handleSalaryIncreaseCheckbox()");
+    this.setState({ isSalaryIncreaseActive: event.target.checked });
   };
 
   // Add text inputs to the 'expenses'
@@ -84,10 +91,15 @@ class App extends Component {
     return !this.state.isDetailedSummaryActive ? "fullOpacity" : "noOpacity";
   };
 
+  // Toggle the opacity level 0-1-0 of the salary increase div
+  handleSalaryIncreaseActivation = () => {
+    return !this.state.isSalaryIncreaseActive ? "fullOpacity" : "noOpacity";
+  };
+
   // Fetch the user input for the yearly income and set the state
   handleIncomeInput = event => {
     console.log("starting handleIncomeInput()");
-    this.setState({ income: event.target.value });
+    this.setState({ income: Number(event.target.value) });
     // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
     this.checkTargetMet();
     // Clear the screen unless isDaydreamActive === true
@@ -95,6 +107,19 @@ class App extends Component {
       this.setState({ isTargetMet: "wait" });
     }
   };
+
+  // The the user input for the target income and set the state
+  handleTargetIncomeInput = event => {
+    console.log("starting handleTargetIncomeInput()");
+    this.setState({ targetIncome: Number(event.target.value) });
+    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    this.checkTargetMet();
+    // Clear the screen unless isDaydreamActive === true
+    if (!this.state.isDaydreamActive) {
+      this.setState({ isTargetMet: "wait" });
+    }
+  };
+
   /* Fetch & handle the values of the EXPENSES */
   // Fetch the value of expenses dynamically upon change
   handleExpensesInput = event => {
@@ -197,63 +222,93 @@ class App extends Component {
     this.setState({ taxCountry: event.target.value });
   };
 
+  // Calculate the meadian salary between the current salary and the target salary
+  calculateAverageSalaryAfterIncrease = () => {
+    // If Salary Increase is active
+    if (this.state.isSalaryIncreaseActive) {
+      return (this.state.income + this.state.targetIncome) / 2;
+    }
+    // If Salary Increase is inactive
+    else {
+      return this.state.income;
+    }
+  };
+
   // Return the net salary once the country's taxes have been deducted
   calculateSalaryAfterTaxes = () => {
     // United Kingdom's taxes
     if (this.state.taxCountry == "United Kingdom") {
       // 0 - 12,500 => 0%
-      if (this.state.income > 0 && this.state.income <= 12500) {
-        return this.state.income;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 0 &&
+        this.calculateAverageSalaryAfterIncrease() <= 12500
+      ) {
+        return this.calculateAverageSalaryAfterIncrease();
       }
       // 12,501 - 50,000 => 20%
-      if (this.state.income > 12500 && this.state.income <= 50000) {
-        return this.state.income * 0.8;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 12500 &&
+        this.calculateAverageSalaryAfterIncrease() <= 50000
+      ) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.8;
       }
       // 50,001 - 150,000 => 40%
-      if (this.state.income > 50000 && this.state.income <= 150000) {
-        return this.state.income * 0.6;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 50000 &&
+        this.calculateAverageSalaryAfterIncrease() <= 150000
+      ) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.6;
       }
       // 150,001 or more => 45%
-      if (this.state.income > 150000) {
-        return this.state.income * 0.55;
+      if (this.calculateAverageSalaryAfterIncrease() > 150000) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.55;
       }
     }
     // Italy's taxes
     if (this.state.taxCountry == "Italy") {
       // 0 - 15,000 => 23%
-      if (this.state.income > 0 && this.state.income <= 15000) {
-        return this.state.income * 0.77;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 0 &&
+        this.calculateAverageSalaryAfterIncrease() <= 15000
+      ) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.77;
       }
       // 15,001 - 28,000 => 27%
-      if (this.state.income > 15000 && this.state.income <= 28000) {
-        return this.state.income * 0.73;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 15000 &&
+        this.calculateAverageSalaryAfterIncrease() <= 28000
+      ) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.73;
       }
       // 28,001 - 55,000 => 38%
-      if (this.state.income > 28000 && this.state.income <= 55000) {
-        return this.state.income * 0.62;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 28000 &&
+        this.calculateAverageSalaryAfterIncrease() <= 55000
+      ) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.62;
       }
       // 55,001 - 75,000 => 41%
-      if (this.state.income > 55000 && this.state.income <= 75000) {
-        return this.state.income * 0.59;
+      if (
+        this.calculateAverageSalaryAfterIncrease() > 55000 &&
+        this.calculateAverageSalaryAfterIncrease() <= 75000
+      ) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.59;
       }
       // 75,001 or more => 43%
-      if (this.state.income > 75000) {
-        return this.state.income * 0.57;
+      if (this.calculateAverageSalaryAfterIncrease() > 75000) {
+        return this.calculateAverageSalaryAfterIncrease() * 0.57;
       }
     }
     // No taxes
     if (this.state.taxCountry == "None (use net)") {
-      return this.state.income;
+      return this.calculateAverageSalaryAfterIncrease();
     }
   };
 
   // Calculate the real yearly income, Salary (IN) - Expenses (OUT)
   calculateYearlyOverallIncome = () => {
     console.log("starting calculateYearlyOverallIncome()");
-
-    let overallIncome =
-      this.calculateSalaryAfterTaxes() - this.calculateYearlyExpenses();
-    return overallIncome;
+    return this.calculateSalaryAfterTaxes() - this.calculateYearlyExpenses();
   };
 
   // Calculate the yearly savings (Income - Expenses)
@@ -681,11 +736,14 @@ class App extends Component {
         />
         <Income
           handleIncomeInput={this.handleIncomeInput}
+          handleTargetIncomeInput={this.handleTargetIncomeInput}
           handleCountrySelection={this.handleCountrySelection}
           checkTargetMet={this.checkTargetMet}
           handleDaydreamCheckbox={this.handleDaydreamCheckbox}
           handleTextInputsCheckbox={this.handleTextInputsCheckbox}
           handleDetailedSummaryCheckbox={this.handleDetailedSummaryCheckbox}
+          handleSalaryIncreaseCheckbox={this.handleSalaryIncreaseCheckbox}
+          handleSalaryIncreaseActivation={this.handleSalaryIncreaseActivation}
         />
         <Summary
           renderSummary={this.renderSummary}

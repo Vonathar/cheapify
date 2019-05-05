@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import daydreamIcon from "../img/daydream-icon.png";
 import textinputIcon from "../img/textinput-icon.png";
 import detailedsummaryIcon from "../img/detailedsummary-icon.png";
+import salaryincreaseIcon from "../img/salaryincrease-icon.png";
 
 /* The Income component returns a UI which allows the user to input the yearly income. */
 class Income extends Component {
@@ -11,7 +12,12 @@ class Income extends Component {
         <form id="income-form">
           {/* Text input for the yearly income */}
           <div id="inputTextHolder-div">
-            <label htmlFor="incomeInputText">Yearly income</label>
+            <label htmlFor="incomeInputText">
+              Yearly income
+              <small id="incomeInputHelp" className="form-text text-muted">
+                Before taxes.
+              </small>
+            </label>
             <input
               type="text"
               className="form-control"
@@ -26,9 +32,48 @@ class Income extends Component {
               }}
               onChange={this.props.handleIncomeInput}
             />
-            <small id="incomeInputHelp" className="form-text text-muted">
-              Please insert the gross income.
-            </small>
+            {/* Holder for the salary increase settings */}
+            <div
+              id="salaryIncreaseSettings-holder"
+              className={this.props.handleSalaryIncreaseActivation()}
+            >
+              {/* Select input */}
+              <div id="salaryIncreaseSettings-select">
+                <select
+                  class="form-control form-control-sm"
+                  id="country-select"
+                  onChange={this.props.handleCountrySelection}
+                >
+                  <option>Target salary</option>
+                </select>
+                <small id="country-help" className="form-text text-muted">
+                  Calculation method
+                </small>
+              </div>
+              {/* Text input */}
+              <div id="salaryIncreaseSettings-div">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="salaryIncreaseSettings-input"
+                  aria-describedby="salaryIncreaseSettingsHelp"
+                  placeholder="55,000..."
+                  onKeyDown={event => {
+                    if (event.keyCode === 13) {
+                      event.preventDefault();
+                      this.props.checkTargetMet();
+                    }
+                  }}
+                  onChange={this.props.handleTargetIncomeInput}
+                />
+                <small
+                  id="salaryIncreaseSettingsHelp"
+                  className="form-text text-muted"
+                >
+                  Salary by target age
+                </small>
+              </div>
+            </div>
             <div id="country-div">
               <select
                 class="form-control form-control-sm"
@@ -129,6 +174,32 @@ class Income extends Component {
                   Detailed summary
                   <img
                     src={detailedsummaryIcon}
+                    alt="Text input"
+                    className="userSettings-icon"
+                  />
+                </label>
+              </div>
+              {/* UI for Salary increase*/}
+              <div
+                class="custom-control custom-checkbox"
+                id="salaryIncrease-div"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="salaryIncrease-input"
+                  onChange={this.props.handleSalaryIncreaseCheckbox}
+                />
+                <label
+                  class="custom-control-label small text-muted"
+                  for="salaryIncrease-input"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="Allow for salary to change overtime instead of remaining fixed. The increase will be applied over the years."
+                >
+                  Salary Increase
+                  <img
+                    src={salaryincreaseIcon}
                     alt="Text input"
                     className="userSettings-icon"
                   />
