@@ -10,7 +10,7 @@ class Income extends Component {
       <div id="income-form-holder">
         <form id="income-form">
           {/* Text input for the yearly income */}
-          <div className="form-group">
+          <div id="inputTextHolder-div">
             <label htmlFor="incomeInputText">Yearly income</label>
             <input
               type="text"
@@ -27,8 +27,24 @@ class Income extends Component {
               onChange={this.props.handleIncomeInput}
             />
             <small id="incomeInputHelp" className="form-text text-muted">
-              Please insert the income after-tax.
+              Please insert the gross income.
             </small>
+            <div id="country-div">
+              <select
+                class="form-control form-control-sm"
+                id="country-select"
+                onChange={this.props.handleCountrySelection}
+              >
+                <option>United Kingdom</option>
+                <option>Italy</option>
+                <option>None (use net)</option>
+              </select>
+              <small id="country-help" className="form-text text-muted">
+                Tax country.
+              </small>
+            </div>
+          </div>
+          <div className="form-group">
             {/* Submit button for the form */}
             <button
               type="button"

@@ -5,23 +5,25 @@ import expensesLogo from "../img/summary-expenses.png";
 import otherLogo from "../img/summary-other.png";
 
 class Summary extends Component {
-  // Handlers for Monthly Income - GROSS
+  // Handlers for Monthly Income - BE
   handleMonthlyIncomeGross = () => {
-    if (this.props.state.income / 12 >= 1) {
-      return Math.floor(this.props.state.income / 12).toLocaleString();
+    if (this.props.calculateSalaryAfterTaxes() / 12 >= 1) {
+      return Math.floor(
+        this.props.calculateSalaryAfterTaxes() / 12
+      ).toLocaleString();
     } else {
-      return (this.props.state.income / 12).toFixed(2);
+      return (this.props.calculateSalaryAfterTaxes() / 12).toFixed(2);
     }
   };
 
-  // Handlers for the Daily Income - GROSS
+  // Handlers for the Daily Income - BE
   handleDailyIncomeGross = () => {
-    return (this.props.state.income / 365).toFixed(2);
+    return (this.props.calculateSalaryAfterTaxes() / 365).toFixed(2);
   };
 
-  // Handlers for the Monthly Income - NET
+  // Handlers for the Monthly Income - AE
   handleMonthlyIncomeNet = () => {
-    if (this.props.state.income / 12 >= 1) {
+    if (this.props.calculateSalaryAfterTaxes() / 12 >= 1) {
       return Math.floor(
         this.props.calculateYearlyOverallIncome() / 12
       ).toLocaleString();
@@ -40,7 +42,7 @@ class Summary extends Component {
     }
   };
 
-  // Handlers for the Daily Income - NET
+  // Handlers for the Daily Income - AE
   handleDailyIncomeNet = () => {
     return (this.props.calculateYearlyOverallIncome() / 365)
       .toFixed(2)
@@ -92,32 +94,37 @@ class Summary extends Component {
   handleExpensesEffectOnIncome = () => {
     return (
       this.props.calculateYearlyExpenses() *
-      (100 / this.props.state.income)
+      (100 / this.props.calculateSalaryAfterTaxes())
     ).toFixed(2);
   };
 
   handleExpensesEffectOnIncomeBadge = () => {
     // 100%+
     if (
-      this.props.calculateYearlyExpenses() * (100 / this.props.state.income) >=
+      this.props.calculateYearlyExpenses() *
+        (100 / this.props.calculateSalaryAfterTaxes()) >=
       100
     ) {
       return "text-danger";
     }
     // 49% - 99%
     if (
-      this.props.calculateYearlyExpenses() * (100 / this.props.state.income) >
+      this.props.calculateYearlyExpenses() *
+        (100 / this.props.calculateSalaryAfterTaxes()) >
         49 &&
-      this.props.calculateYearlyExpenses() * (100 / this.props.state.income) <
+      this.props.calculateYearlyExpenses() *
+        (100 / this.props.calculateSalaryAfterTaxes()) <
         100
     ) {
       return "text-warning";
     }
     // 0% - 49%
     if (
-      this.props.calculateYearlyExpenses() * (100 / this.props.state.income) >
+      this.props.calculateYearlyExpenses() *
+        (100 / this.props.calculateSalaryAfterTaxes()) >
         0 &&
-      this.props.calculateYearlyExpenses() * (100 / this.props.state.income) <
+      this.props.calculateYearlyExpenses() *
+        (100 / this.props.calculateSalaryAfterTaxes()) <
         50
     ) {
       return "text-success";
@@ -181,40 +188,41 @@ class Summary extends Component {
               Income
             </h5>
             <small className="text-muted">
-              <em>Gross</em>: before expenses
+              <em>BE</em>: before expenses
             </small>
-            {/* Monthly income - GROSS */}
+            {/* Monthly income - BE */}
             <p>
-              Monthly income (gross):{" "}
+              Monthly income (BE):{" "}
               <span className={"text-success"}>
-                {"£" + this.handleMonthlyIncomeGross()}
+                {this.props.state.currencyIcon +
+                  this.handleMonthlyIncomeGross()}
               </span>
               .
             </p>
-            {/* Daily income - GROSS */}
+            {/* Daily income - BE */}
             <p>
-              Daily income (gross):{" "}
+              Daily income (BE):{" "}
               <span className="text-success">
-                {"£" + this.handleDailyIncomeGross()}
+                {this.props.state.currencyIcon + this.handleDailyIncomeGross()}
               </span>
               .
             </p>
             <small className="text-muted">
-              <em>Net</em>: after expenses
+              <em>AE</em>: after expenses
             </small>
-            {/* Monthly income - NET */}
+            {/* Monthly income - AE */}
             <p>
-              Monthly income (net):{" "}
+              Monthly income (AE):{" "}
               <span className={this.handleMonthlyIncomeNetBadge()}>
-                {"£" + this.handleMonthlyIncomeNet()}
+                {this.props.state.currencyIcon + this.handleMonthlyIncomeNet()}
               </span>
               .
             </p>
-            {/* Daily income - NET */}
+            {/* Daily income - AE */}
             <p>
-              Daily income (net):{" "}
+              Daily income (AE):{" "}
               <span className={this.handleDailyIncomeNetBadge()}>
-                {"£" + this.handleDailyIncomeNet()}
+                {this.props.state.currencyIcon + this.handleDailyIncomeNet()}
               </span>
               .
             </p>
@@ -245,7 +253,8 @@ class Summary extends Component {
             <p>
               Minimum net salary to reach target:{" "}
               <span className="text-info">
-                {"£" + this.handleMinimumNetToTarget()}
+                {this.props.state.currencyIcon +
+                  this.handleMinimumNetToTarget()}
               </span>
               .
             </p>
@@ -253,7 +262,8 @@ class Summary extends Component {
             <p>
               Surplus money after target reached:{" "}
               <span className="text-success">
-                {"£" + this.handleSurplusAfterTarget()}
+                {this.props.state.currencyIcon +
+                  this.handleSurplusAfterTarget()}
               </span>
               .
             </p>
@@ -261,7 +271,8 @@ class Summary extends Component {
             <p>
               Cumulative expenses by target age:{" "}
               <span className="text-info">
-                {"£" + this.handleCumulativeExpensesByTarget()}
+                {this.props.state.currencyIcon +
+                  this.handleCumulativeExpensesByTarget()}
               </span>
               .
             </p>
@@ -273,7 +284,7 @@ class Summary extends Component {
                 <small>
                   Food:{" "}
                   <span className="text-info">
-                    {"£" +
+                    {this.props.state.currencyIcon +
                       (
                         this.props.state.foodExpenses *
                         (this.props.state.targetAge -
@@ -288,7 +299,7 @@ class Summary extends Component {
                   Transport:{" "}
                   <span className="text-info">
                     {" "}
-                    {"£" +
+                    {this.props.state.currencyIcon +
                       (
                         this.props.state.transportationExpenses *
                         (this.props.state.targetAge -
@@ -303,7 +314,7 @@ class Summary extends Component {
                   House:{" "}
                   <span className="text-info">
                     {" "}
-                    {"£" +
+                    {this.props.state.currencyIcon +
                       (
                         this.props.state.houseExpenses *
                         (this.props.state.targetAge -
@@ -318,7 +329,7 @@ class Summary extends Component {
                   Leisure:{" "}
                   <span className="text-info">
                     {" "}
-                    {"£" +
+                    {this.props.state.currencyIcon +
                       (
                         this.props.state.leisureExpenses *
                         (this.props.state.targetAge -
@@ -333,7 +344,7 @@ class Summary extends Component {
                   Beauty:{" "}
                   <span className="text-info">
                     {" "}
-                    {"£" +
+                    {this.props.state.currencyIcon +
                       (
                         this.props.state.beautyExpenses *
                         (this.props.state.targetAge -
@@ -370,7 +381,8 @@ class Summary extends Component {
             <p>
               Yearly expenses:{" "}
               <span className="text-info">
-                {"£" + this.props.calculateYearlyExpenses().toLocaleString()}
+                {this.props.state.currencyIcon +
+                  this.props.calculateYearlyExpenses().toLocaleString()}
               </span>
               .
             </p>
@@ -378,7 +390,7 @@ class Summary extends Component {
             <p>
               Yearly MAS (to target met):{" "}
               <span className={this.handleYearlyMaxSpendToTargetBadge()}>
-                {"£" +
+                {this.props.state.currencyIcon +
                   this.props.calculateYearlyMaxSpendToTarget().toLocaleString()}
               </span>
             </p>
@@ -386,7 +398,7 @@ class Summary extends Component {
             <p>
               Monthly MAS (to target met){" "}
               <span className={this.handleMonthlyMaxSpendToTargetBadge()}>
-                {"£" +
+                {this.props.state.currencyIcon +
                   (
                     this.props.calculateYearlyMaxSpendToTarget() / 12
                   ).toLocaleString()}
@@ -396,7 +408,7 @@ class Summary extends Component {
             <p>
               Yearly MAS (Debt-free by target age):{" "}
               <span className={this.calculateYearlyMaxSpendToNoDebtBadge()}>
-                {"£" +
+                {this.props.state.currencyIcon +
                   this.props.calculateYearlyMaxSpendToNoDebt().toLocaleString()}
               </span>
             </p>
@@ -404,7 +416,7 @@ class Summary extends Component {
             <p>
               Monthly MAS (Debt-free by target age){" "}
               <span className={this.calculateMonthlyMaxSpendToNoDebtBadge()}>
-                {"£" +
+                {this.props.state.currencyIcon +
                   (
                     this.props.calculateYearlyMaxSpendToNoDebt() / 12
                   ).toLocaleString()}
@@ -457,7 +469,8 @@ class Summary extends Component {
                 <small>
                   5%:{" "}
                   <span className="text-info">
-                    {"£" + this.props.calculateSavingsByExpensesReduction(5)}
+                    {this.props.state.currencyIcon +
+                      this.props.calculateSavingsByExpensesReduction(5)}
                   </span>
                 </small>
                 {/* 10% */}
@@ -466,7 +479,8 @@ class Summary extends Component {
                 <small>
                   10%:{" "}
                   <span className="text-info">
-                    {"£" + this.props.calculateSavingsByExpensesReduction(10)}
+                    {this.props.state.currencyIcon +
+                      this.props.calculateSavingsByExpensesReduction(10)}
                   </span>
                 </small>
                 {/* 15% */}
@@ -475,7 +489,8 @@ class Summary extends Component {
                 <small>
                   15%:{" "}
                   <span className="text-info">
-                    {"£" + this.props.calculateSavingsByExpensesReduction(15)}
+                    {this.props.state.currencyIcon +
+                      this.props.calculateSavingsByExpensesReduction(15)}
                   </span>
                 </small>
                 {/* 20% */}
@@ -484,7 +499,8 @@ class Summary extends Component {
                 <small>
                   20%:{" "}
                   <span className="text-info">
-                    {"£" + this.props.calculateSavingsByExpensesReduction(20)}
+                    {this.props.state.currencyIcon +
+                      this.props.calculateSavingsByExpensesReduction(20)}
                   </span>
                 </small>
               </li>
@@ -493,7 +509,8 @@ class Summary extends Component {
                 <small>
                   25%:{" "}
                   <span className="text-info">
-                    {"£" + this.props.calculateSavingsByExpensesReduction(25)}
+                    {this.props.state.currencyIcon +
+                      this.props.calculateSavingsByExpensesReduction(25)}
                   </span>
                 </small>
               </li>

@@ -87,7 +87,7 @@ class Target extends Component {
             id="targetNetHelp"
             className="form-text text-muted target-help"
           >
-            {this.props.handleTargetNetText()} £.
+            {this.props.handleTargetNetText() + this.props.state.currencyIcon}.
           </small>
         </div>
       </form>

@@ -42,7 +42,7 @@ class Expenses extends Component {
             id="foodExpensesHelp"
             className="form-text text-muted expenses-help"
           >
-            {"£"}
+            {this.props.state.currencyIcon}
             {this.props.handleFoodExpensesText()} per month.
           </small>
         </div>
@@ -76,7 +76,7 @@ class Expenses extends Component {
             id="transportationExpensesHelp"
             className="form-text text-muted expenses-help"
           >
-            {"£"}
+            {this.props.state.currencyIcon}
             {this.props.handleTransportationExpensesText()} per month.
           </small>
         </div>
@@ -106,7 +106,7 @@ class Expenses extends Component {
             id="houseExpensesHelp"
             className="form-text text-muted expenses-help"
           >
-            {"£"}
+            {this.props.state.currencyIcon}
             {this.props.handleHouseExpensesText()} per month.
           </small>
         </div>
@@ -140,7 +140,7 @@ class Expenses extends Component {
             id="leisureExpensesHelp"
             className="form-text text-muted expenses-help"
           >
-            {"£"}
+            {this.props.state.currencyIcon}
             {this.props.handleLeisureExpensesText()} per month.
           </small>
         </div>
@@ -170,7 +170,7 @@ class Expenses extends Component {
             id="beautyExpensesHelp"
             className="form-text text-muted expenses-help"
           >
-            {"£"}
+            {this.props.state.currencyIcon}
             {this.props.handleBeautyExpensesText()} per month.
           </small>
         </div>

@@ -23,6 +23,8 @@ class App extends Component {
     targetAge: 50,
     currentNet: 5000,
     targetNet: 250000,
+    taxCountry: "United Kingdom",
+    currencyIcon: "£",
     // Post-calculation values
     isTargetMet: "wait",
     /*
@@ -184,11 +186,73 @@ class App extends Component {
     return totalExpenses;
   };
 
+  // Set the state's currentIcon and taxCountry
+  handleCountrySelection = event => {
+    console.log("starting handleCountrySelection()");
+    if (event.target.value == "United Kingdom") {
+      this.setState({ currencyIcon: "£" });
+    } else {
+      this.setState({ currencyIcon: "€" });
+    }
+    this.setState({ taxCountry: event.target.value });
+  };
+
+  // Return the net salary once the country's taxes have been deducted
+  calculateSalaryAfterTaxes = () => {
+    // United Kingdom's taxes
+    if (this.state.taxCountry == "United Kingdom") {
+      // 0 - 12,500 => 0%
+      if (this.state.income > 0 && this.state.income <= 12500) {
+        return this.state.income;
+      }
+      // 12,501 - 50,000 => 20%
+      if (this.state.income > 12500 && this.state.income <= 50000) {
+        return this.state.income * 0.8;
+      }
+      // 50,001 - 150,000 => 40%
+      if (this.state.income > 50000 && this.state.income <= 150000) {
+        return this.state.income * 0.6;
+      }
+      // 150,001 or more => 45%
+      if (this.state.income > 150000) {
+        return this.state.income * 0.55;
+      }
+    }
+    // Italy's taxes
+    if (this.state.taxCountry == "Italy") {
+      // 0 - 15,000 => 23%
+      if (this.state.income > 0 && this.state.income <= 15000) {
+        return this.state.income * 0.77;
+      }
+      // 15,001 - 28,000 => 27%
+      if (this.state.income > 15000 && this.state.income <= 28000) {
+        return this.state.income * 0.73;
+      }
+      // 28,001 - 55,000 => 38%
+      if (this.state.income > 28000 && this.state.income <= 55000) {
+        return this.state.income * 0.62;
+      }
+      // 55,001 - 75,000 => 41%
+      if (this.state.income > 55000 && this.state.income <= 75000) {
+        return this.state.income * 0.59;
+      }
+      // 75,001 or more => 43%
+      if (this.state.income > 75000) {
+        return this.state.income * 0.57;
+      }
+    }
+    // No taxes
+    if (this.state.taxCountry == "None (use net)") {
+      return this.state.income;
+    }
+  };
+
   // Calculate the real yearly income, Salary (IN) - Expenses (OUT)
   calculateYearlyOverallIncome = () => {
     console.log("starting calculateYearlyOverallIncome()");
 
-    let overallIncome = this.state.income - this.calculateYearlyExpenses();
+    let overallIncome =
+      this.calculateSalaryAfterTaxes() - this.calculateYearlyExpenses();
     return overallIncome;
   };
 
@@ -219,7 +283,7 @@ class App extends Component {
   // The yearly maximum spendable money which will still allow to reach the target age and meet the target net
   calculateYearlyMaxSpendToTarget = () => {
     return (
-      Number(this.state.income) +
+      this.calculateSalaryAfterTaxes() +
       this.state.currentNet / (this.state.targetAge - this.state.currentAge) -
       this.calculateMinimumRequiredIncome()
     );
@@ -228,7 +292,7 @@ class App extends Component {
   // The yearly maximum spendable money which will still allow to reach the target age debt free
   calculateYearlyMaxSpendToNoDebt = () => {
     return (
-      Number(this.state.income) +
+      this.calculateSalaryAfterTaxes() +
       this.state.currentNet / (this.state.targetAge - this.state.currentAge)
     );
   };
@@ -341,7 +405,11 @@ class App extends Component {
         <p>
           However, by your target age you will be worth
           <span className="text-success">
-            <strong> £{this.calculateNetByTargetAge().toLocaleString()}</strong>
+            <strong>
+              {" "}
+              {this.state.currencyIcon +
+                this.calculateNetByTargetAge().toLocaleString()}
+            </strong>
           </span>
           .
         </p>
@@ -355,10 +423,10 @@ class App extends Component {
           <span className="text-danger">
             <strong>
               {" "}
-              £
-              {Math.abs(
-                this.calculateNetByTargetAge().toString()
-              ).toLocaleString()}
+              {this.state.currencyIcon +
+                Math.abs(
+                  this.calculateNetByTargetAge().toString()
+                ).toLocaleString()}
             </strong>
             .
           </span>
@@ -375,8 +443,12 @@ class App extends Component {
         <p>
           {" "}
           To earn{" "}
-          <strong> £{Number(this.state.targetNet).toLocaleString()}</strong> it
-          would take you
+          <strong>
+            {" "}
+            {this.state.currencyIcon +
+              Number(this.state.targetNet).toLocaleString()}
+          </strong>{" "}
+          it would take you
           <strong> {this.calculateYearsToTarget()}</strong> years, which means
           you will be
           <strong>
@@ -392,7 +464,12 @@ class App extends Component {
           {" "}
           Sadly, according to the current data, it will never be possible to
           reach a net worth of{" "}
-          <strong> £{Number(this.state.targetNet).toLocaleString()}</strong>.
+          <strong>
+            {" "}
+            {this.state.currencyIcon +
+              Number(this.state.targetNet).toLocaleString()}
+          </strong>
+          .
         </p>
       );
     }
@@ -406,15 +483,16 @@ class App extends Component {
         <p>
           Every month, the total of your expenses is{" "}
           <strong>
-            £{(this.calculateYearlyExpenses() / 12).toLocaleString()}
+            {this.state.currencyIcon +
+              (this.calculateYearlyExpenses() / 12).toLocaleString()}
           </strong>
           , which means you are left with{" "}
           <span className="text-success">
             <strong>
-              £
-              {Math.floor(
-                Math.abs(this.calculateYearlySavings() / 12)
-              ).toLocaleString()}
+              {this.state.currencyIcon +
+                Math.floor(
+                  Math.abs(this.calculateYearlySavings() / 12)
+                ).toLocaleString()}
             </strong>
           </span>{" "}
           of savings.
@@ -427,16 +505,17 @@ class App extends Component {
           Every month, the total of your expenses is
           <strong>
             {" "}
-            £{(this.calculateYearlyExpenses() / 12).toLocaleString()}
+            {this.state.currencyIcon +
+              (this.calculateYearlyExpenses() / 12).toLocaleString()}
           </strong>
           , which means every month you are spending{" "}
           <span className="text-danger">
             <strong>
               {" "}
-              £
-              {Math.floor(
-                Math.abs(this.calculateYearlySavings() / 12)
-              ).toLocaleString()}
+              {this.state.currencyIcon +
+                Math.floor(
+                  Math.abs(this.calculateYearlySavings() / 12)
+                ).toLocaleString()}
             </strong>{" "}
           </span>
           more than you can afford!
@@ -463,7 +542,8 @@ class App extends Component {
         <span className="text-success">
           <strong>
             {" "}
-            £{Number(this.calculateNetByTargetAge()).toLocaleString()}
+            {this.state.currencyIcon +
+              Number(this.calculateNetByTargetAge()).toLocaleString()}
           </strong>
         </span>
         .
@@ -476,8 +556,12 @@ class App extends Component {
     if (this.calculateYearsToTarget() > 1) {
       return (
         <p>
-          To earn <strong> £{this.state.targetNet.toLocaleString()}</strong> it
-          would take you
+          To earn{" "}
+          <strong>
+            {" "}
+            {this.state.currencyIcon + this.state.targetNet.toLocaleString()}
+          </strong>{" "}
+          it would take you
           <strong> {this.calculateYearsToTarget()} </strong>
           years, which means you will be
           <strong>
@@ -490,8 +574,12 @@ class App extends Component {
     } else {
       return (
         <p>
-          To earn <strong> £{this.state.targetNet.toLocaleString()}</strong> it
-          would take you
+          To earn{" "}
+          <strong>
+            {" "}
+            {this.state.currencyIcon + this.state.targetNet.toLocaleString()}
+          </strong>{" "}
+          it would take you
           <strong> less than a year</strong>!
         </p>
       );
@@ -505,12 +593,14 @@ class App extends Component {
         Every month, the total of your expenses is
         <strong>
           {" "}
-          £{(this.calculateYearlyExpenses() / 12).toLocaleString()}
+          {this.state.currencyIcon +
+            (this.calculateYearlyExpenses() / 12).toLocaleString()}
         </strong>
         , which means you are left with{" "}
         <span className="text-success">
           <strong>
-            £{Math.floor(this.calculateYearlySavings() / 12).toLocaleString()}
+            {this.state.currencyIcon +
+              Math.floor(this.calculateYearlySavings() / 12).toLocaleString()}
           </strong>
         </span>{" "}
         of savings.
@@ -570,6 +660,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <Expenses
+          state={this.state}
           foodExpenses={this.foodExpenses}
           transportationExpenses={this.transportationExpenses}
           houseExpenses={this.houseExpenses}
@@ -590,6 +681,7 @@ class App extends Component {
         />
         <Income
           handleIncomeInput={this.handleIncomeInput}
+          handleCountrySelection={this.handleCountrySelection}
           checkTargetMet={this.checkTargetMet}
           handleDaydreamCheckbox={this.handleDaydreamCheckbox}
           handleTextInputsCheckbox={this.handleTextInputsCheckbox}
@@ -599,6 +691,7 @@ class App extends Component {
           renderSummary={this.renderSummary}
           handleDetailedSummary={this.handleDetailedSummary}
           state={this.state}
+          calculateSalaryAfterTaxes={this.calculateSalaryAfterTaxes}
           calculateYearlyOverallIncome={this.calculateYearlyOverallIncome}
           calculateMinimumRequiredIncome={this.calculateMinimumRequiredIncome}
           calculateYearlyMaxSpendToTarget={this.calculateYearlyMaxSpendToTarget}
@@ -613,6 +706,7 @@ class App extends Component {
           calculateYearlyExpenses={this.calculateYearlyExpenses}
         />
         <Target
+          state={this.state}
           targetNet={this.targetNet}
           handleTargetInput={this.handleTargetInput}
           handleTargetAgeText={this.handleTargetAgeText}

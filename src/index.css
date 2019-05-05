@@ -35,7 +35,7 @@ body {
 
 #summary-div {
   width: 20vw;
-  top: 43vh;
+  top: 50vh;
   left: 40vw;
   position: absolute;
   text-align: center;
@@ -63,6 +63,13 @@ body {
 .detailedSummaryHeader {
   border-radius: 20px;
   margin-bottom: 1vw;
+}
+
+#country-div {
+  width: 7vw;
+  position: relative;
+  left: 11.5vw;
+  top: 0.5vh;
 }
 
 #income-form-holder {
