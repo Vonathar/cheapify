@@ -4,13 +4,24 @@ import textinputIcon from "../img/textinput-icon.png";
 import detailedsummaryIcon from "../img/detailedsummary-icon.png";
 import salaryincreaseIcon from "../img/salaryincrease-icon.png";
 
-/* The Income component returns a UI which allows the user to input the yearly income. */
+/*
+    Render a form accepting user input for:
+      1 - Current income
+      2 - Target income
+      3 - County selection
+      4 - User settings
+        4.1 - Daydream mode
+        4.2 - Enable text fields
+        4.3 - Detailed summary
+        4.4 - Salary increase
+*/
+
 class Income extends Component {
   render() {
     return (
       <div id="income-form-holder">
         <form id="income-form">
-          {/* Text input for the yearly income */}
+          {/* Text input - CURRENT INCOME */}
           <div id="inputTextHolder-div">
             <label htmlFor="incomeInputText">
               Yearly income
@@ -32,12 +43,12 @@ class Income extends Component {
               }}
               onChange={this.props.handleIncomeInput}
             />
-            {/* Holder for the salary increase settings */}
+            {/* Holder for Salary Increase Settings */}
             <div
               id="salaryIncreaseSettings-holder"
               className={this.props.handleSalaryIncreaseActivation()}
             >
-              {/* Select input */}
+              {/* Select input - CALCULATION METHOD */}
               <div id="salaryIncreaseSettings-select">
                 <select
                   class="form-control form-control-sm"
@@ -50,7 +61,7 @@ class Income extends Component {
                   Calculation method
                 </small>
               </div>
-              {/* Text input */}
+              {/* Text input - TARGET SALARY */}
               <div id="salaryIncreaseSettings-div">
                 <input
                   type="text"
@@ -90,7 +101,7 @@ class Income extends Component {
             </div>
           </div>
           <div className="form-group">
-            {/* Submit button for the form */}
+            {/* Button input - CALCULATE */}
             <button
               type="button"
               class="btn btn-dark btn-sm"
@@ -102,9 +113,9 @@ class Income extends Component {
             >
               Calculate
             </button>
-            {/* Settings div holding the checkboxes used to define user settings */}
+            {/* Holder for User Setting checkboxes */}
             <div id="userSettings-div">
-              {/* UI for Daydream */}
+              {/* Checkbox input - DAYDREAM */}
               <div class="custom-control custom-checkbox" id="dayDream-div">
                 <input
                   type="checkbox"
@@ -127,7 +138,7 @@ class Income extends Component {
                   />
                 </label>
               </div>
-              {/* UI for Text Input */}
+              {/* Checkbox input - TEXT INPUT */}
               <div
                 class="custom-control custom-checkbox"
                 id="textInputsActivation-div"
@@ -153,7 +164,7 @@ class Income extends Component {
                   />
                 </label>
               </div>
-              {/* UI for Detailed Summary*/}
+              {/* Checkbox input - DETAILED SUMMARY*/}
               <div
                 class="custom-control custom-checkbox"
                 id="detailedSummary-div"
@@ -179,7 +190,7 @@ class Income extends Component {
                   />
                 </label>
               </div>
-              {/* UI for Salary increase*/}
+              {/* Checkbox input - SALARY INCREASE*/}
               <div
                 class="custom-control custom-checkbox"
                 id="salaryIncrease-div"

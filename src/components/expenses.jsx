@@ -6,9 +6,14 @@ import leisureLogo from "../img/leisure.png";
 import beautyLogo from "../img/beauty.png";
 
 /*
-    The Expenses component returns a form which allows the user to input the values related to the incurred expenses:
-        [1 - FOOD  ,  2 - TRANSPORTATION  ,  3 - HOUSE  ,  4 - LEISURE  ,  5 - BEAUTY] 
+    Render a form accepting user input for the expenses:
+      1 - FOOD
+      2 - TRANSPORTATION
+      3 - HOUSE
+      4 - LEISURE
+      5 - BEAUTY]
 */
+
 class Expenses extends Component {
   render() {
     return (
@@ -16,7 +21,7 @@ class Expenses extends Component {
         id="expenses-form"
         className={this.props.handleDetailedSummaryActivation()}
       >
-        {/* Range input for the FOOD expenses */}
+        {/* Range input - FOOD */}
         <div className="form-group , expenses-input">
           <label htmlFor="foodExpenses" className="expenses-label">
             <img src={foodLogo} alt="Food logo" className="expense-icon" />
@@ -46,7 +51,7 @@ class Expenses extends Component {
             {this.props.handleFoodExpensesText()} per month.
           </small>
         </div>
-        {/* Range input for the TRANSPORTATION expenses */}
+        {/* Range input - TRANSPORTATION */}
         <div className="form-group , expenses-input">
           <label htmlFor="transportationExpenses" className="expenses-label">
             <img
@@ -80,7 +85,7 @@ class Expenses extends Component {
             {this.props.handleTransportationExpensesText()} per month.
           </small>
         </div>
-        {/* Range input for the HOUSE expenses */}
+        {/* Range input - HOUSE */}
         <div className="form-group , expenses-input">
           <label htmlFor="houseExpenses" className="expenses-label">
             <img src={houseLogo} alt="House logo" className="expense-icon" />
@@ -110,7 +115,7 @@ class Expenses extends Component {
             {this.props.handleHouseExpensesText()} per month.
           </small>
         </div>
-        {/* Range input for the LEISURE expenses */}
+        {/* Range input - LEISURE */}
         <div className="form-group , expenses-input">
           <label htmlFor="leisureExpenses" className="expenses-label">
             <img
@@ -144,7 +149,7 @@ class Expenses extends Component {
             {this.props.handleLeisureExpensesText()} per month.
           </small>
         </div>
-        {/* Range input for the BEAUTY expenses */}
+        {/* Range input - BEAUTY */}
         <div className="form-group , expenses-input">
           <label htmlFor="beautyExpenses" className="expenses-label">
             <img src={beautyLogo} alt="Beauty logo" className="expense-icon" />

@@ -57,7 +57,7 @@ class Summary extends Component {
     }
   };
 
-  // Handlers for the Impact of current net on target net
+  // Impact of current net on target net
   handleImpactOnNet = () => {
     return (
       this.props.state.currentNet *
@@ -65,7 +65,7 @@ class Summary extends Component {
     ).toFixed(2);
   };
 
-  // Handlers for the Minimum net salary to reach target
+  // Minimum net salary to reach target
   handleMinimumNetToTarget = () => {
     return (
       this.props.state.targetNet /
@@ -73,7 +73,7 @@ class Summary extends Component {
     ).toLocaleString();
   };
 
-  // Handlers for the Surplus money after target reached
+  // Surplus money after target reached
   handleSurplusAfterTarget = () => {
     return (
       (this.props.calculateYearlyOverallIncome() -
@@ -82,7 +82,7 @@ class Summary extends Component {
     ).toLocaleString();
   };
 
-  // Handlers for the Cumulative expenses by target age
+  // Cumulative expenses by target age
   handleCumulativeExpensesByTarget = () => {
     return (
       this.props.calculateYearlyExpenses() *
@@ -90,7 +90,7 @@ class Summary extends Component {
     ).toLocaleString();
   };
 
-  // Handler for effect of expenses on income
+  // Effect of expenses on income
   handleExpensesEffectOnIncome = () => {
     return (
       this.props.calculateYearlyExpenses() *
@@ -98,6 +98,7 @@ class Summary extends Component {
     ).toFixed(2);
   };
 
+  // Render the badge of effect of expenses on income dynamically
   handleExpensesEffectOnIncomeBadge = () => {
     // 100%+
     if (
@@ -175,7 +176,7 @@ class Summary extends Component {
         <div id="summary-div">{this.props.renderSummary()}</div>
         <div
           id="summaryLeft-div"
-          className={this.props.handleDetailedSummary()}
+          className={this.props.handleDetailedSummaryDeactivation()}
         >
           {/* INCOME Summary */}
           <div className="detailedSummaryElement">
@@ -358,7 +359,7 @@ class Summary extends Component {
         </div>
         <div
           id="summaryRight-div"
-          className={this.props.handleDetailedSummary()}
+          className={this.props.handleDetailedSummaryDeactivation()}
         >
           {/* EXPENSES Summary */}
           <div className="detailedSummaryElement">

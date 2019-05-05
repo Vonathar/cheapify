@@ -30,9 +30,9 @@ class App extends Component {
     isTargetMet: "wait",
     /*
      3 options for isTargetMet: "yes" , "no" and "wait":
-     yes => call to this.renderSummary() which renders a 'success' screen;
-     no => call to this.renderSummary() which renders a 'failure' screen;
-     wait => call to this.renderSummary() returns a blank statement, thus clearing the mid section of the screen;
+     yes => this.renderSummary() renders a 'success' screen;
+     no => this.renderSummary() renders a 'failure' screen;
+     wait => this.renderSummary() returns a blank screen.
      */
     isDaydreamActive: false,
     areTextInputsActive: false,
@@ -40,30 +40,27 @@ class App extends Component {
     isSalaryIncreaseActive: false
   };
 
-  // Change the state's isDaydreamActive according to user input
+  // Input handler for isDaydreamActive (checkbox)
   handleDaydreamCheckbox = event => {
     this.setState({ isDaydreamActive: event.target.checked });
   };
 
-  // Change the state's areTextInputsActive according to user input
+  // Input handler for areTextInputsActive (checkbox)
   handleTextInputsCheckbox = event => {
-    console.log("starting handleTextInputsCheckbox()");
     this.setState({ areTextInputsActive: event.target.checked });
   };
 
-  // Change the state's isDetailedSummaryActive according to user input
+  // Input handler for isDetailedSummaryActive (checkbox)
   handleDetailedSummaryCheckbox = event => {
-    console.log("starting handleDetailedSummaryCheckbox()");
     this.setState({ isDetailedSummaryActive: event.target.checked });
   };
 
-  // Change the state's isSalaryIncreaseActive according to user input
+  // Input handler for isSalaryIncreaseActive (checkbox)
   handleSalaryIncreaseCheckbox = event => {
-    console.log("starting handleSalaryIncreaseCheckbox()");
     this.setState({ isSalaryIncreaseActive: event.target.checked });
   };
 
-  // Add text inputs to the 'expenses'
+  // Render the text inputs below expenses sliders
   handleTextInputsActivationExpenses = () => {
     let classes = "form-control form-control-sm expenses-textInput ";
     if (!this.state.areTextInputsActive) {
@@ -72,7 +69,7 @@ class App extends Component {
     return classes;
   };
 
-  // Add text inputs to the 'targets'
+  // Render the text inputs below target sliders
   handleTextInputsActivationTargets = () => {
     let classes = "form-control form-control-sm target-textInput ";
     if (!this.state.areTextInputsActive) {
@@ -81,49 +78,46 @@ class App extends Component {
     return classes;
   };
 
-  // Toggle opacity level from 0 to 1 ( fullOpacity -> expenses/target divs disappear)
+  // Toggle opacity from 0 to 1 ( fullOpacity -> Detailed Summary IS visible / Expenses and Targets are NOT visible)
   handleDetailedSummaryActivation = () => {
     return this.state.isDetailedSummaryActive ? "fullOpacity" : "noOpacity";
   };
 
-  // Toggle the opacity level from 0 to 1 (fullOpacity -> detailed summary disappears)
-  handleDetailedSummary = () => {
+  // Toggle opacity from 0 to 1 ( fullOpacity -> Detailed Summary is NOT visible / Expenses and Targets ARE visible  )
+  handleDetailedSummaryDeactivation = () => {
     return !this.state.isDetailedSummaryActive ? "fullOpacity" : "noOpacity";
   };
 
-  // Toggle the opacity level 0-1-0 of the salary increase div
+  // Toggle opacity from 0 to 1 ( fullOpacity -> Detailed Summary IS visible )
   handleSalaryIncreaseActivation = () => {
     return !this.state.isSalaryIncreaseActive ? "fullOpacity" : "noOpacity";
   };
 
-  // Fetch the user input for the yearly income and set the state
+  // Input handler for this.state.income (text)
   handleIncomeInput = event => {
-    console.log("starting handleIncomeInput()");
     this.setState({ income: Number(event.target.value) });
-    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    // Update this.state.isTargetMet => rerender summary via this.renderSummary()
     this.checkTargetMet();
-    // Clear the screen unless isDaydreamActive === true
+    // Clear the screen if isDaydreamActive is false
     if (!this.state.isDaydreamActive) {
       this.setState({ isTargetMet: "wait" });
     }
   };
 
-  // The the user input for the target income and set the state
+  // Input handler for this.state.targetIncome (text)
   handleTargetIncomeInput = event => {
-    console.log("starting handleTargetIncomeInput()");
     this.setState({ targetIncome: Number(event.target.value) });
-    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    // Update this.state.isTargetMet => rerender summary via this.renderSummary()
     this.checkTargetMet();
-    // Clear the screen unless isDaydreamActive === true
+    // Clear the screen if isDaydreamActive is false
     if (!this.state.isDaydreamActive) {
       this.setState({ isTargetMet: "wait" });
     }
   };
 
-  /* Fetch & handle the values of the EXPENSES */
-  // Fetch the value of expenses dynamically upon change
+  /* Fetch EXPENSES */
+  // Input handler for expenses (text)
   handleExpensesInput = event => {
-    console.log("starting handleExpenseInput()");
     console.log(event.target.value);
     if (event.target.id === "foodExpenses") {
       this.setState({ foodExpenses: Number(event.target.value) });
@@ -140,15 +134,15 @@ class App extends Component {
     if (event.target.id === "beautyExpenses") {
       this.setState({ beautyExpenses: Number(event.target.value) });
     }
-    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    // Update this.state.isTargetMet => rerender summary via this.renderSummary()
     this.checkTargetMet();
-    // Clear the screen unless isDaydreamActive === true
+    // Clear the screen if isDaydreamActive is false
     if (!this.state.isDaydreamActive) {
       this.setState({ isTargetMet: "wait" });
     }
   };
 
-  // Handler functions to update the UI with the new values of the various expenses
+  // Update UI (via child)
   handleFoodExpensesText = () => {
     return this.state.foodExpenses.toLocaleString();
   };
@@ -165,10 +159,9 @@ class App extends Component {
     return this.state.beautyExpenses.toLocaleString();
   };
 
-  /* Fetch & handle the values of the TARGETS */
-  // Fetch the value of targets dynamically upon change
+  /* Fetch TARGETS */
+  // Input handler for targets (text)
   handleTargetInput = event => {
-    console.log("starting handleTargetInput()");
     if (event.target.id === "currentAgeInput") {
       this.setState({ currentAge: Number(event.target.value) });
     }
@@ -181,15 +174,15 @@ class App extends Component {
     if (event.target.id === "targetNetInput") {
       this.setState({ targetNet: Number(event.target.value) });
     }
-    // Change the state of isTargetMet, causing a rerender of the summary via this.renderSummary()
+    // Update this.state.isTargetMet => rerender summary via this.renderSummary()
     this.checkTargetMet();
-    // Clear the screen unless isDaydreamActive === true
+    // Clear the screen if isDaydreamActive is false
     if (!this.state.isDaydreamActive) {
       this.setState({ isTargetMet: "wait" });
     }
   };
 
-  // Handler functions to update the UI with the new values of the various targets
+  // Update UI (via child)
   handleTargetAgeText = () => {
     return this.state.targetAge;
   };
@@ -197,9 +190,8 @@ class App extends Component {
     return this.state.targetNet.toLocaleString();
   };
 
-  // All the expenses summed (YEARLY)
+  // Expenses incurred in 12 months
   calculateYearlyExpenses = () => {
-    console.log("starting calculateYearlyExpenses()");
     let totalExpenses =
       (this.state.foodExpenses +
         this.state.transportationExpenses +
@@ -211,24 +203,25 @@ class App extends Component {
     return totalExpenses;
   };
 
-  // Set the state's currentIcon and taxCountry
+  // Input handler for country (text)
   handleCountrySelection = event => {
-    console.log("starting handleCountrySelection()");
+    // Currency symbol
     if (event.target.value == "United Kingdom") {
       this.setState({ currencyIcon: "£" });
     } else {
       this.setState({ currencyIcon: "€" });
     }
+    // Taxation country
     this.setState({ taxCountry: event.target.value });
   };
 
-  // Calculate the meadian salary between the current salary and the target salary
+  // Median salary between current and target income
   calculateAverageSalaryAfterIncrease = () => {
-    // If Salary Increase is active
+    // Salary Increase is active
     if (this.state.isSalaryIncreaseActive) {
       return (this.state.income + this.state.targetIncome) / 2;
     }
-    // If Salary Increase is inactive
+    // Salary Increase is NOT active
     else {
       return this.state.income;
     }
@@ -236,7 +229,7 @@ class App extends Component {
 
   // Return the net salary once the country's taxes have been deducted
   calculateSalaryAfterTaxes = () => {
-    // United Kingdom's taxes
+    // United Kingdom
     if (this.state.taxCountry == "United Kingdom") {
       // 0 - 12,500 => 0%
       if (
@@ -264,7 +257,7 @@ class App extends Component {
         return this.calculateAverageSalaryAfterIncrease() * 0.55;
       }
     }
-    // Italy's taxes
+    // Italy
     if (this.state.taxCountry == "Italy") {
       // 0 - 15,000 => 23%
       if (
@@ -299,24 +292,18 @@ class App extends Component {
         return this.calculateAverageSalaryAfterIncrease() * 0.57;
       }
     }
-    // No taxes
+    // None
     if (this.state.taxCountry == "None (use net)") {
       return this.calculateAverageSalaryAfterIncrease();
     }
   };
 
-  // Calculate the real yearly income, Salary (IN) - Expenses (OUT)
+  // Yearly left-over money after expenses are paid
   calculateYearlyOverallIncome = () => {
-    console.log("starting calculateYearlyOverallIncome()");
     return this.calculateSalaryAfterTaxes() - this.calculateYearlyExpenses();
   };
 
-  // Calculate the yearly savings (Income - Expenses)
-  calculateYearlySavings = () => {
-    return this.calculateYearlyOverallIncome();
-  };
-
-  // Calculate years to reach target
+  // Years required to reach target with current salary
   calculateYearsToTarget = () => {
     if (this.calculateYearlyOverallIncome() < 1) {
       return 0;
@@ -326,16 +313,14 @@ class App extends Component {
     );
   };
 
-  // The money required to reach the target net worth, divided by the years left until target age
+  // Minimum yearly salary to meet target requirements
   calculateMinimumRequiredIncome = () => {
-    console.log("starting calculateMinimumRequiredIncome()");
     let moneyToTarget = this.state.targetNet - this.state.currentNet;
     let yearsToTarget = this.state.targetAge - this.state.currentAge;
-    // Return the yearly money necessary to reach the target
     return moneyToTarget / yearsToTarget;
   };
 
-  // The yearly maximum spendable money which will still allow to reach the target age and meet the target net
+  // Maximum spendable money (yearly) to meet target requirements
   calculateYearlyMaxSpendToTarget = () => {
     return (
       this.calculateSalaryAfterTaxes() +
@@ -344,7 +329,7 @@ class App extends Component {
     );
   };
 
-  // The yearly maximum spendable money which will still allow to reach the target age debt free
+  // Maximum spendable money (yearly) to be debt-free by target age
   calculateYearlyMaxSpendToNoDebt = () => {
     return (
       this.calculateSalaryAfterTaxes() +
@@ -352,9 +337,8 @@ class App extends Component {
     );
   };
 
-  // Check the money made in a year is more than the minimum required to meet target
+  // Check if the target is met
   checkTargetMet = () => {
-    console.log("starting checkTargetMet()");
     // Yearly target > yearly money IN
     if (
       this.calculateYearlyOverallIncome() <
@@ -370,14 +354,13 @@ class App extends Component {
     }
   };
 
-  // Calculate the net worth by the target age
+  // Net worth accumulated by target age
   calculateNetByTargetAge = () => {
     let yearsToTarget = this.state.targetAge - this.state.currentAge;
     return this.calculateYearlyOverallIncome() * yearsToTarget;
   };
 
-  // Calculate how long the target net worth would last according to the currently selected expenses
-
+  // Duration of target net worth based on current expenses
   calculateDurationOfTargetNet = () => {
     // If > 1 year
     if (this.state.targetNet / this.calculateYearlyExpenses() > 1) {
@@ -394,8 +377,7 @@ class App extends Component {
       );
   };
 
-  // Calculate how long the current net worth would last according to the currently selected expenses
-
+  // Duration of current net worth based on current expenses
   calculateDurationOfCurrentNet = () => {
     // If > 1 year
     if (this.state.currentNet / this.calculateYearlyExpenses() > 1) {
@@ -416,7 +398,7 @@ class App extends Component {
     }
   };
 
-  // The time it would take to become a millionaire by the current pace
+  // Time left until millionaire
   calculateTimeToMillionaire = () => {
     // If > 1 year
     if (1000000 / this.calculateYearlyOverallIncome() > 1) {
@@ -433,7 +415,7 @@ class App extends Component {
 
   calculateSavingsByExpensesReduction = percentage => {
     return Math.floor(
-      (this.calculateYearlySavings() / 100) * percentage
+      (this.calculateYearlyOverallIncome() / 100) * percentage
     ).toLocaleString();
   };
 
@@ -442,7 +424,7 @@ class App extends Component {
     Each method is only responsible for rendering a specific paragraph; the actuall calls to the methods are done by this.renderSummary()
   */
 
-  // Return the first paragraph of the failure summary
+  // Failure - Paragraph 1
   handleFailureParagraphOne = () => {
     return (
       <p>
@@ -452,9 +434,9 @@ class App extends Component {
     );
   };
 
-  // Return the second paragraph of the failure summary
+  // Failure - Paragraph 2
   handleFailureParagraphTwo = () => {
-    // Render the net worth by target age
+    // Net worth by target age
     if (this.calculateYearsToTarget() > 1) {
       return (
         <p>
@@ -469,7 +451,7 @@ class App extends Component {
           .
         </p>
       );
-      // Render the amount of debt accumulated
+      // Amount of debt accumulated
     } else {
       return (
         <p>
@@ -490,9 +472,9 @@ class App extends Component {
     }
   };
 
-  // Return the third paragraph of the failure summary
+  // Failure - Paragraph 3
   handleFailureParagraphThree = () => {
-    // Render the age-related parameters
+    // Age-related parameters
     if (this.calculateYearsToTarget() > 1) {
       return (
         <p>
@@ -512,7 +494,7 @@ class App extends Component {
           </strong>
         </p>
       );
-      // Skip the rendering of age-related parameters
+      // SKIP age-related parameters
     } else {
       return (
         <p>
@@ -530,9 +512,9 @@ class App extends Component {
     }
   };
 
-  // Return the fourth paragraph of the failure summary
+  // Failure - Paragraph 4
   handleFailureParagraphFour = () => {
-    // Render the monthly expenses / yearly savings
+    // Monthly expenses / yearly savings
     if (this.calculateYearsToTarget() > 1) {
       return (
         <p>
@@ -546,14 +528,14 @@ class App extends Component {
             <strong>
               {this.state.currencyIcon +
                 Math.floor(
-                  Math.abs(this.calculateYearlySavings() / 12)
+                  Math.abs(this.calculateYearlyOverallIncome() / 12)
                 ).toLocaleString()}
             </strong>
           </span>{" "}
           of savings.
         </p>
       );
-      // Render the monthly expenses and the amount of money spent per month which is causing the debt
+      // Monthly expenses / debt accumulation
     } else {
       return (
         <p>
@@ -569,7 +551,7 @@ class App extends Component {
               {" "}
               {this.state.currencyIcon +
                 Math.floor(
-                  Math.abs(this.calculateYearlySavings() / 12)
+                  Math.abs(this.calculateYearlyOverallIncome() / 12)
                 ).toLocaleString()}
             </strong>{" "}
           </span>
@@ -579,7 +561,7 @@ class App extends Component {
     }
   };
 
-  // Return the first paragraph of the success summary
+  // Success - Paragraph 1
   handleSuccessParagraphOne = () => {
     return (
       <p>
@@ -589,7 +571,7 @@ class App extends Component {
     );
   };
 
-  // Return the second paragraph of the success summary
+  // Success - Paragraph 2
   handleSuccessParagraphTwo = () => {
     return (
       <p>
@@ -606,7 +588,7 @@ class App extends Component {
     );
   };
 
-  // Return the third paragraph of the success summary
+  // Success - Paragraph 3
   handleSuccessParagraphThree = () => {
     if (this.calculateYearsToTarget() > 1) {
       return (
@@ -641,7 +623,7 @@ class App extends Component {
     }
   };
 
-  // Return the fourth paragraph of the success summary
+  // Success - Paragraph 4
   handleSuccessParagraphFour = () => {
     return (
       <p>
@@ -655,7 +637,9 @@ class App extends Component {
         <span className="text-success">
           <strong>
             {this.state.currencyIcon +
-              Math.floor(this.calculateYearlySavings() / 12).toLocaleString()}
+              Math.floor(
+                this.calculateYearlyOverallIncome() / 12
+              ).toLocaleString()}
           </strong>
         </span>{" "}
         of savings.
@@ -664,11 +648,11 @@ class App extends Component {
   };
 
   renderSummary = () => {
-    // Render an empty div, only available if isDaydreamActive === false
+    // Empty div (Daydream NOT active)
     if (this.state.isTargetMet === "wait") {
       return;
     }
-    // Render the summary div based on the TARGET NOT being MET
+    // Summary div (Target NOT met)
     if (this.state.isTargetMet === "no") {
       return (
         <React.Fragment>
@@ -679,7 +663,7 @@ class App extends Component {
           {this.handleFailureParagraphTwo()}
           {/* Years to reach target net worth */}
           {this.handleFailureParagraphThree()}
-          {/* Total of expenses */}
+          {/* Total expenses */}
           {this.handleFailureParagraphFour()}
           <small className="text-muted">
             Try playing around with the expenses to see how they affect your
@@ -688,7 +672,7 @@ class App extends Component {
         </React.Fragment>
       );
     }
-    // Render the summary div based on the TARGET being MET
+    // Summary div (Target MET)
     if (this.state.isTargetMet === "yes") {
       return (
         <React.Fragment>
@@ -747,7 +731,9 @@ class App extends Component {
         />
         <Summary
           renderSummary={this.renderSummary}
-          handleDetailedSummary={this.handleDetailedSummary}
+          handleDetailedSummaryDeactivation={
+            this.handleDetailedSummaryDeactivation
+          }
           state={this.state}
           calculateSalaryAfterTaxes={this.calculateSalaryAfterTaxes}
           calculateYearlyOverallIncome={this.calculateYearlyOverallIncome}
@@ -760,7 +746,7 @@ class App extends Component {
           calculateSavingsByExpensesReduction={
             this.calculateSavingsByExpensesReduction
           }
-          calculateYearlySavings={this.calculateYearlySavings}
+          calculateYearlyOverallIncome={this.calculateYearlyOverallIncome}
           calculateYearlyExpenses={this.calculateYearlyExpenses}
         />
         <Target
