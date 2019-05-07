@@ -5,6 +5,11 @@ import expensesLogo from "../img/summary-expenses.png";
 import otherLogo from "../img/summary-other.png";
 
 class Summary extends Component {
+  // Handlers for Yearly Income - BE
+  handleYearlyIncomeGross = () => {
+    return this.props.calculateSalaryAfterTaxes().toLocaleString();
+  };
+
   // Handlers for Monthly Income - BE
   handleMonthlyIncomeGross = () => {
     if (this.props.calculateSalaryAfterTaxes() / 12 >= 1) {
@@ -19,6 +24,11 @@ class Summary extends Component {
   // Handlers for the Daily Income - BE
   handleDailyIncomeGross = () => {
     return (this.props.calculateSalaryAfterTaxes() / 365).toFixed(2);
+  };
+
+  // Handlers for the Yearly Income - AE
+  handleYearlyIncomeNet = () => {
+    return this.props.calculateYearlyOverallIncome().toLocaleString();
   };
 
   // Handlers for the Monthly Income - AE
@@ -191,6 +201,14 @@ class Summary extends Component {
             <small className="text-muted">
               <em>BE</em>: before expenses
             </small>
+            {/* Yearly income - BE */}
+            <p>
+              Yearly income (BE):{" "}
+              <span className={"text-success"}>
+                {this.props.state.currencyIcon + this.handleYearlyIncomeGross()}
+              </span>
+              .
+            </p>
             {/* Monthly income - BE */}
             <p>
               Monthly income (BE):{" "}
@@ -211,6 +229,14 @@ class Summary extends Component {
             <small className="text-muted">
               <em>AE</em>: after expenses
             </small>
+            {/* Yearly income - AE */}
+            <p>
+              Yearly income (AE):{" "}
+              <span className={"text-success"}>
+                {this.props.state.currencyIcon + this.handleYearlyIncomeNet()}
+              </span>
+              .
+            </p>
             {/* Monthly income - AE */}
             <p>
               Monthly income (AE):{" "}
