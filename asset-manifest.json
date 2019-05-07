@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/cheapify/static/css/main.122aa818.chunk.css",
+    "main.css": "/cheapify/static/css/main.634f79c7.chunk.css",
     "main.js": "/cheapify/static/js/main.bc646c3c.chunk.js",
     "main.js.map": "/cheapify/static/js/main.bc646c3c.chunk.js.map",
     "runtime~main.js": "/cheapify/static/js/runtime~main.53fad4fc.js",
@@ -9,10 +9,10 @@
     "static/js/2.877e51c7.chunk.js": "/cheapify/static/js/2.877e51c7.chunk.js",
     "static/js/2.877e51c7.chunk.js.map": "/cheapify/static/js/2.877e51c7.chunk.js.map",
     "index.html": "/cheapify/index.html",
-    "precache-manifest.808f367f7578456de84a5eea501e4e77.js": "/cheapify/precache-manifest.808f367f7578456de84a5eea501e4e77.js",
+    "precache-manifest.c107aa5eb167720cfceef55702774b75.js": "/cheapify/precache-manifest.c107aa5eb167720cfceef55702774b75.js",
     "service-worker.js": "/cheapify/service-worker.js",
     "static/css/2.22a7d4ef.chunk.css.map": "/cheapify/static/css/2.22a7d4ef.chunk.css.map",
-    "static/css/main.122aa818.chunk.css.map": "/cheapify/static/css/main.122aa818.chunk.css.map",
+    "static/css/main.634f79c7.chunk.css.map": "/cheapify/static/css/main.634f79c7.chunk.css.map",
     "static/media/food.png": "/cheapify/static/media/food.661a4564.png"
   }
 }
