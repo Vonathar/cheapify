@@ -52,10 +52,11 @@ class Income extends Component {
               <div id="salaryIncreaseSettings-select">
                 <select
                   class="form-control form-control-sm"
-                  id="country-select"
-                  onChange={this.props.handleCountrySelection}
+                  id="salaryIncreaseMethod-select"
+                  onChange={this.props.handleSalaryIncreaseMethod}
                 >
                   <option>Target salary</option>
+                  <option>Fixed percentage</option>
                 </select>
                 <small id="country-help" className="form-text text-muted">
                   Calculation method
@@ -75,13 +76,13 @@ class Income extends Component {
                       this.props.checkTargetMet();
                     }
                   }}
-                  onChange={this.props.handleTargetIncomeInput}
+                  onChange={this.props.handleSalaryIncreaseInput}
                 />
                 <small
                   id="salaryIncreaseSettingsHelp"
                   className="form-text text-muted"
                 >
-                  Salary by target age
+                  {this.props.handleSalaryIncreaseHelpText()}
                 </small>
               </div>
             </div>

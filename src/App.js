@@ -13,6 +13,14 @@ class App extends Component {
     // User input
     income: 25000,
     targetIncome: 55000,
+    // In percentage
+    yearlySalaryIncrease: 5,
+    /* 
+      2 options for salaryIncreaseMethod: "Target salary" / "Fixed percentage":
+      "Target salary" => Use median salary between current and target income;
+      "Fixed percentage" => Increse the salary yearly by a fixed percentage;
+    */
+    salaryIncreaseMethod: "Target salary",
     // Expenses
     foodExpenses: 100,
     transportationExpenses: 150,
@@ -104,14 +112,25 @@ class App extends Component {
     }
   };
 
-  // Input handler for this.state.targetIncome (text)
-  handleTargetIncomeInput = event => {
-    this.setState({ targetIncome: Number(event.target.value) });
-    // Update this.state.isTargetMet => rerender summary via this.renderSummary()
-    this.checkTargetMet();
-    // Clear the screen if isDaydreamActive is false
-    if (!this.state.isDaydreamActive) {
-      this.setState({ isTargetMet: "wait" });
+  // Input handler for this.state.targetIncome and this.state.yearlySalaryIncrease (text)
+  handleSalaryIncreaseInput = event => {
+    if (this.state.salaryIncreaseMethod === "Target salary") {
+      this.setState({ targetIncome: Number(event.target.value) });
+      // Update this.state.isTargetMet => rerender summary via this.renderSummary()
+      this.checkTargetMet();
+      // Clear the screen if isDaydreamActive is false
+      if (!this.state.isDaydreamActive) {
+        this.setState({ isTargetMet: "wait" });
+      }
+    }
+    if (this.state.salaryIncreaseMethod === "Fixed percentage") {
+      this.setState({ yearlySalaryIncrease: Number(event.target.value) });
+      // Update this.state.isTargetMet => rerender summary via this.renderSummary()
+      this.checkTargetMet();
+      // Clear the screen if isDaydreamActive is false
+      if (!this.state.isDaydreamActive) {
+        this.setState({ isTargetMet: "wait" });
+      }
     }
   };
 
@@ -215,11 +234,39 @@ class App extends Component {
     this.setState({ taxCountry: event.target.value });
   };
 
+  // Input handler for salary increase method (select)
+  handleSalaryIncreaseMethod = event => {
+    console.log(event.target.value);
+    this.setState({ salaryIncreaseMethod: event.target.value });
+  };
+
+  handleSalaryIncreaseHelpText = () => {
+    if (this.state.salaryIncreaseMethod === "Target salary") {
+      return "Salary by target age";
+    }
+    if (this.state.salaryIncreaseMethod === "Fixed percentage") {
+      return "Yearly % increase";
+    }
+  };
+
   // Median salary between current and target income
   calculateAverageSalaryAfterIncrease = () => {
     // Salary Increase is active
     if (this.state.isSalaryIncreaseActive) {
-      return (this.state.income + this.state.targetIncome) / 2;
+      // Target salary method
+      if (this.state.salaryIncreaseMethod === "Target salary") {
+        return (this.state.income + this.state.targetIncome) / 2;
+      }
+      // Fixed percentage method
+      if (this.state.salaryIncreaseMethod === "Fixed percentage") {
+        return (
+          this.state.income +
+          this.state.income *
+            (this.state.yearlySalaryIncrease *
+              0.01 *
+              (this.state.targetAge - this.state.currentAge))
+        );
+      }
     }
     // Salary Increase is NOT active
     else {
@@ -720,8 +767,10 @@ class App extends Component {
         />
         <Income
           handleIncomeInput={this.handleIncomeInput}
-          handleTargetIncomeInput={this.handleTargetIncomeInput}
+          handleSalaryIncreaseInput={this.handleSalaryIncreaseInput}
+          handleSalaryIncreaseHelpText={this.handleSalaryIncreaseHelpText}
           handleCountrySelection={this.handleCountrySelection}
+          handleSalaryIncreaseMethod={this.handleSalaryIncreaseMethod}
           checkTargetMet={this.checkTargetMet}
           handleDaydreamCheckbox={this.handleDaydreamCheckbox}
           handleTextInputsCheckbox={this.handleTextInputsCheckbox}

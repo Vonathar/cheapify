@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: scroll !important;
 }
 
 :root,
@@ -229,7 +230,7 @@ body {
   }
   #income-form {
     position: relative;
-    top: 0;
+    top: 3vh;
     width: 50vw;
     display: inline-block;
   }
