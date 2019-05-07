@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/cheapify/static/css/main.19d8f3e0.chunk.css",
-    "main.js": "/cheapify/static/js/main.4325cb71.chunk.js",
-    "main.js.map": "/cheapify/static/js/main.4325cb71.chunk.js.map",
+    "main.css": "/cheapify/static/css/main.122aa818.chunk.css",
+    "main.js": "/cheapify/static/js/main.8d4932eb.chunk.js",
+    "main.js.map": "/cheapify/static/js/main.8d4932eb.chunk.js.map",
     "runtime~main.js": "/cheapify/static/js/runtime~main.53fad4fc.js",
     "runtime~main.js.map": "/cheapify/static/js/runtime~main.53fad4fc.js.map",
     "static/css/2.22a7d4ef.chunk.css": "/cheapify/static/css/2.22a7d4ef.chunk.css",
     "static/js/2.877e51c7.chunk.js": "/cheapify/static/js/2.877e51c7.chunk.js",
     "static/js/2.877e51c7.chunk.js.map": "/cheapify/static/js/2.877e51c7.chunk.js.map",
     "index.html": "/cheapify/index.html",
-    "precache-manifest.0a75c8311f8acfa246ef736038eb8715.js": "/cheapify/precache-manifest.0a75c8311f8acfa246ef736038eb8715.js",
+    "precache-manifest.19ab44662acff531c01967f0e0bfbf0e.js": "/cheapify/precache-manifest.19ab44662acff531c01967f0e0bfbf0e.js",
     "service-worker.js": "/cheapify/service-worker.js",
     "static/css/2.22a7d4ef.chunk.css.map": "/cheapify/static/css/2.22a7d4ef.chunk.css.map",
-    "static/css/main.19d8f3e0.chunk.css.map": "/cheapify/static/css/main.19d8f3e0.chunk.css.map",
+    "static/css/main.122aa818.chunk.css.map": "/cheapify/static/css/main.122aa818.chunk.css.map",
     "static/media/food.png": "/cheapify/static/media/food.661a4564.png"
   }
 }
