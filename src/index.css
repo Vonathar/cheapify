@@ -201,22 +201,35 @@ body {
     font-size: 0.8em;
   }
   #expenses-form {
-    position: fixed;
+    position: absolute;
     left: 1vw;
     width: 60vw;
-    top: 60vh;
+    top: 65vh;
     margin-left: 1vw;
   }
+
+  #country-div {
+    width: 35vw;
+    position: relative;
+    left: 7.5vw;
+    top: 1vh;
+  }
+
   #target-form {
-    position: fixed;
+    position: absolute;
     right: 1vw;
     width: 25vw;
-    top: 55vh;
+    top: 60vh;
     margin-right: 1vw;
   }
   .target-icon {
     float: left;
     height: 3vh;
+  }
+
+  .expenses-input,
+  .target-input {
+    padding-bottom: 0;
   }
 
   .expenses-label {
@@ -237,14 +250,72 @@ body {
     position: relative;
     top: 3vh;
     width: 50vw;
-    display: inline-block;
+  }
+
+  #income-form-holder {
+    width: 100%;
+    position: absolute;
+    height: 1vh;
+    top: 8vh;
+    text-align: center;
+  }
+
+  #salaryIncreaseSettings-holder {
+    position: relative;
+    left: -5vw;
+    top: 1vh;
+    width: 60vw;
+  }
+
+  #salaryIncreaseSettings-input {
+    height: 1.85em;
+    width: 45vw;
+  }
+
+  #salaryIncreaseMethod-select {
+    height: 2em;
+    position: relative;
+  }
+
+  #summaryLeft-div {
+    position: absolute;
+    font-size: 0.8em;
+    left: 2vw;
+    width: 50vw;
+    top: 110vw;
+  }
+
+  h5 {
+    font-size: 1.2em !important;
+  }
+
+  #summaryRight-div {
+    position: absolute;
+    font-size: 0.8em;
+    right: -3vw;
+    width: 50vw;
+    top: 110vw;
+  }
+
+  .detailedSummaryElement {
+    width: 20vw;
+    margin-right: 2vh;
+  }
+
+  #incomeInputText {
+    height: 2em;
+  }
+
+  #country-select {
+    height: 2em;
   }
 
   #summary-div {
     width: 95vw;
     font-size: 0.8em;
-    top: 30vh;
+    top: 145vh;
     left: 0;
+    padding-left: 2vw;
     position: absolute;
     text-align: center;
   }
@@ -274,10 +345,22 @@ body {
   }
   #summary-div {
     width: 30vw;
-    top: 35vh;
+    top: 50vh;
 
     left: 35vw;
     position: absolute;
     text-align: center;
+  }
+
+  #summaryLeft-div {
+    font-size: 0.8em;
+  }
+
+  h5 {
+    font-size: 1.2em !important;
+  }
+
+  #summaryRight-div {
+    font-size: 0.8em;
   }
 }
