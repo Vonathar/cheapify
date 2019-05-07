@@ -57,6 +57,7 @@ class Income extends Component {
                 >
                   <option>Target salary</option>
                   <option>Fixed percentage</option>
+                  <option>Fixed amount</option>
                 </select>
                 <small id="country-help" className="form-text text-muted">
                   Calculation method

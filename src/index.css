@@ -18,6 +18,11 @@ body {
 
 /* Individual */
 
+#navbar-logo {
+  width: 50px;
+  height: 50px;
+}
+
 .noDisplay {
   display: none !important;
 }
@@ -97,7 +102,7 @@ body {
 
 #income-form {
   position: relative;
-  top: 10vh;
+  top: 5vh;
   width: 30vw;
   display: inline-block;
 }

@@ -14,11 +14,14 @@ class App extends Component {
     income: 25000,
     targetIncome: 55000,
     // In percentage
-    yearlySalaryIncrease: 5,
+    yearlySalaryIncreasePercentage: 5,
+    // Fixed
+    yearlySalaryIncreaseFixed: 5000,
     /* 
-      2 options for salaryIncreaseMethod: "Target salary" / "Fixed percentage":
+      3 options for salaryIncreaseMethod: "Target salary" / "Fixed percentage":
       "Target salary" => Use median salary between current and target income;
       "Fixed percentage" => Increse the salary yearly by a fixed percentage;
+      "Fixed amount" => Increase the salary yearly by a fixed amount;
     */
     salaryIncreaseMethod: "Target salary",
     // Expenses
@@ -112,7 +115,7 @@ class App extends Component {
     }
   };
 
-  // Input handler for this.state.targetIncome and this.state.yearlySalaryIncrease (text)
+  // Input handler for this.state.targetIncome and this.state.yearlySalaryIncreasePercentage (text)
   handleSalaryIncreaseInput = event => {
     if (this.state.salaryIncreaseMethod === "Target salary") {
       this.setState({ targetIncome: Number(event.target.value) });
@@ -124,7 +127,20 @@ class App extends Component {
       }
     }
     if (this.state.salaryIncreaseMethod === "Fixed percentage") {
-      this.setState({ yearlySalaryIncrease: Number(event.target.value) });
+      this.setState({
+        yearlySalaryIncreasePercentage: Number(event.target.value)
+      });
+      // Update this.state.isTargetMet => rerender summary via this.renderSummary()
+      this.checkTargetMet();
+      // Clear the screen if isDaydreamActive is false
+      if (!this.state.isDaydreamActive) {
+        this.setState({ isTargetMet: "wait" });
+      }
+    }
+    if (this.state.salaryIncreaseMethod === "Fixed amount") {
+      this.setState({
+        yearlySalaryIncreaseFixed: Number(event.target.value)
+      });
       // Update this.state.isTargetMet => rerender summary via this.renderSummary()
       this.checkTargetMet();
       // Clear the screen if isDaydreamActive is false
@@ -240,12 +256,16 @@ class App extends Component {
     this.setState({ salaryIncreaseMethod: event.target.value });
   };
 
+  // Return help text based on salary increase method
   handleSalaryIncreaseHelpText = () => {
     if (this.state.salaryIncreaseMethod === "Target salary") {
       return "Salary by target age";
     }
     if (this.state.salaryIncreaseMethod === "Fixed percentage") {
-      return "Yearly % increase";
+      return "Yearly increase (%)";
+    }
+    if (this.state.salaryIncreaseMethod === "Fixed amount") {
+      return "Yearly increase (" + this.state.currencyIcon + ")";
     }
   };
 
@@ -262,9 +282,17 @@ class App extends Component {
         return (
           this.state.income +
           this.state.income *
-            (this.state.yearlySalaryIncrease *
+            (this.state.yearlySalaryIncreasePercentage *
               0.01 *
               (this.state.targetAge - this.state.currentAge))
+        );
+      }
+      // Fixed amount method
+      if (this.state.salaryIncreaseMethod === "Fixed amount") {
+        return (
+          this.state.income +
+          (this.state.yearlySalaryIncreaseFixed * this.state.targetAge -
+            this.state.currentAge)
         );
       }
     }
